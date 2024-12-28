@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Photo {
     @Id
-    @Setter(AccessLevel.NONE)
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "photographer_id")

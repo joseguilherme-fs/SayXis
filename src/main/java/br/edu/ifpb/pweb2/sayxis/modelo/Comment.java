@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Component
 public class Comment {
     @Id
-    @Setter(AccessLevel.NONE)
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "photographer_id")

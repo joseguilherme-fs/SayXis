@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Photographer {
     @Id
-    @Setter(AccessLevel.NONE)
     private Integer id;
     private String name;
     private String email;
