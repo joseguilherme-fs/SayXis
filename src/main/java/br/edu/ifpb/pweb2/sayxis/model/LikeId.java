@@ -1,7 +1,6 @@
-package br.edu.ifpb.pweb2.sayxis.modelo;
+package br.edu.ifpb.pweb2.sayxis.model;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.stereotype.Component;
 

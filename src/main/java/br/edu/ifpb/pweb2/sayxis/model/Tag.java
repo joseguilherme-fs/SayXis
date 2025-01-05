@@ -1,4 +1,4 @@
-package br.edu.ifpb.pweb2.sayxis.modelo;
+package br.edu.ifpb.pweb2.sayxis.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;

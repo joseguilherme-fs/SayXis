@@ -1,12 +1,10 @@
-package br.edu.ifpb.pweb2.sayxis.modelo;
+package br.edu.ifpb.pweb2.sayxis.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Data
