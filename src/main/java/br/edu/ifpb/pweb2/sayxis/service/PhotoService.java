@@ -1,7 +1,7 @@
-package br.edu.ifpb.pweb2.sayxis.servico;
+package br.edu.ifpb.pweb2.sayxis.service;
 
-import br.edu.ifpb.pweb2.sayxis.modelo.Photo;
-import br.edu.ifpb.pweb2.sayxis.repositorio.PhotoRepositorio;
+import br.edu.ifpb.pweb2.sayxis.model.Photo;
+import br.edu.ifpb.pweb2.sayxis.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import java.util.List;
 public class PhotoService implements Service<Photo, Integer>{
 
     @Autowired
-    private PhotoRepositorio photoRepositorio;
+    private PhotoRepository photoRepository;
 
     @Override
     public List<Photo> findAll() {
-        return photoRepositorio.findAll();
+        return photoRepository.findAll();
     }
 
     @Override
@@ -25,6 +25,6 @@ public class PhotoService implements Service<Photo, Integer>{
 
     @Override
     public Photo save(Photo photo) {
-        return photoRepositorio.save(photo);
+        return photoRepository.save(photo);
     }
 }

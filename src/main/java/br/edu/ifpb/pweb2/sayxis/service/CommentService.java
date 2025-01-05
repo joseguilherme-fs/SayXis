@@ -1,7 +1,7 @@
-package br.edu.ifpb.pweb2.sayxis.servico;
+package br.edu.ifpb.pweb2.sayxis.service;
 
-import br.edu.ifpb.pweb2.sayxis.modelo.Comment;
-import br.edu.ifpb.pweb2.sayxis.repositorio.CommentRepositorio;
+import br.edu.ifpb.pweb2.sayxis.model.Comment;
+import br.edu.ifpb.pweb2.sayxis.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import java.util.List;
 public class CommentService implements Service<Comment, Integer>{
 
     @Autowired
-    private CommentRepositorio commentRepositorio;
+    private CommentRepository commentRepository;
 
     @Override
     public List<Comment> findAll() {
-        return commentRepositorio.findAll();
+        return commentRepository.findAll();
     }
 
     @Override
@@ -25,6 +25,6 @@ public class CommentService implements Service<Comment, Integer>{
 
     @Override
     public Comment save(Comment comment) {
-        return commentRepositorio.save(comment);
+        return commentRepository.save(comment);
     }
 }

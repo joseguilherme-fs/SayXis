@@ -1,4 +1,4 @@
-package br.edu.ifpb.pweb2.sayxis.servico;
+package br.edu.ifpb.pweb2.sayxis.service;
 
 import java.util.List;
 

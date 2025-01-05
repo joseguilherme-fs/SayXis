@@ -1,23 +1,21 @@
-package br.edu.ifpb.pweb2.sayxis.servico;
+package br.edu.ifpb.pweb2.sayxis.service;
 
-import br.edu.ifpb.pweb2.sayxis.modelo.Photo;
-import br.edu.ifpb.pweb2.sayxis.modelo.Photographer;
-import br.edu.ifpb.pweb2.sayxis.repositorio.PhotographerRepositorio;
+import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PhotographerService implements Service<Photographer, Integer> {
 
     @Autowired
-    private PhotographerRepositorio photographerRepositorio;
+    private PhotographerRepository photographerRepository;
 
     @Override
     public List<Photographer> findAll() {
-        return photographerRepositorio.findAll();
+        return photographerRepository.findAll();
     }
 
     @Override
@@ -27,6 +25,6 @@ public class PhotographerService implements Service<Photographer, Integer> {
 
     @Override
     public Photographer save(Photographer photographer) {
-        return photographerRepositorio.save(photographer);
+        return photographerRepository.save(photographer);
     }
 }

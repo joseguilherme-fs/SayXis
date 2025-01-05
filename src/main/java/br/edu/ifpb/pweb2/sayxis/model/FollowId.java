@@ -1,3 +1,5 @@
+package br.edu.ifpb.pweb2.sayxis.model;
+
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
