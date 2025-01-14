@@ -11,17 +11,18 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 
+@Table(name = "likes")
 public class Like {
 
     @EmbeddedId
     private LikeId id;
 
     @ManyToOne
-    @JoinColumn(name = "photographer_id")
+    @JoinColumn(name = "photographer_id", insertable = false, updatable = false)
     private Photographer photographer;
 
     @ManyToOne
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private Photo photo;
 
 }

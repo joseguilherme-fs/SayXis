@@ -13,10 +13,10 @@ public class PhotoTag {
     private PhotoTagId id;
 
     @ManyToOne
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private Photo photo;
 
     @ManyToOne
-    @JoinColumn(name = "tag_id")
+    @JoinColumn(name = "tag_id", insertable = false, updatable = false)
     private Tag tag;
 }
