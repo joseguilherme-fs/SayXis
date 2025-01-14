@@ -13,6 +13,9 @@ public class CommentService implements Service<Comment, Integer>{
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PhotoService photoService;
+
     @Override
     public List<Comment> findAll() {
         return commentRepository.findAll();
@@ -26,5 +29,13 @@ public class CommentService implements Service<Comment, Integer>{
     @Override
     public Comment save(Comment comment) {
         return commentRepository.save(comment);
+    }
+
+    public List<Comment> getComments(Integer photoId) {
+        if (photoService.findById(photoId) != null) {
+            return commentRepository.getComments(photoId);
+        } else {
+            return null;
+        }
     }
 }
