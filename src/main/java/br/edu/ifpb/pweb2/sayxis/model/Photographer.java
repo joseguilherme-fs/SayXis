@@ -19,9 +19,9 @@ public class Photographer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean isAdm = false;
     private String email;
     private String senha;
+    private boolean is_adm = false;
     private byte[] fotoPerfil = null;
     private String cidade = null;
     private String pais = null;
