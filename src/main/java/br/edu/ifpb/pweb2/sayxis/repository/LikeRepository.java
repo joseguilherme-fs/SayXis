@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, LikeId> {
 
-    @Query("select count(l) from Like l where l.photo = :photoId")
-    int countLikes(@Param("photoId") Integer photoId);
+    @Query("select count(l) from Like l where l.photo = :photo_id")
+    int countLikes(@Param("photo_id") Integer photo_id);
 
-    @Query("select count(l) > 0 from Like l where l.photographer = :photographerId and l.photo = :photoId")
-    boolean isLiked(@Param("photographerId") Integer photographerId, @Param("photoId") Integer photoId);
+    @Query("select count(l) > 0 from Like l where l.photographer = :photographer_id and l.photo = :photo_id")
+    boolean isLiked(@Param("photographer_id") Integer photographer_id, @Param("photo_id") Integer photo_id);
 }
