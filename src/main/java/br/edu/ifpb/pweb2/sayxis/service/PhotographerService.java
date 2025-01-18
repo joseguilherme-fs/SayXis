@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PhotographerService implements Service<Photographer, Integer> {
@@ -19,12 +20,29 @@ public class PhotographerService implements Service<Photographer, Integer> {
     }
 
     @Override
-    public Photographer findById(Integer integer) {
-        return null;
+    public Photographer findById(Integer id) {
+        Photographer photographer = null;
+        Optional<Photographer> opPhotographer = photographerRepository.findById(id);
+        if (opPhotographer.isPresent()) {
+            photographer = opPhotographer.get();
+        }
+        return photographer;
     }
 
     @Override
     public Photographer save(Photographer photographer) {
-        return photographerRepository.save(photographer);
+        if(findById(photographer.getId()) != null) {
+            return null;
+        } else {
+            return photographerRepository.save(photographer);
+        }
+    }
+
+    public Photographer findByEmail(String email){
+        return photographerRepository.findByEmail(email);
+    }
+
+    public List<Photographer> findSuspendeds() {
+        return photographerRepository.findSuspendeds();
     }
 }
