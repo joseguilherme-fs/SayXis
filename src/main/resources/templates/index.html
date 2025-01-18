@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="https://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
-    <link href="output.css" rel="stylesheet">
+    <title>SAYXIS</title>
+    <link th:href="@{/output.css}" rel="stylesheet" />
 </head>
 <body>
-
+    <h1>Feed</h1>
+    <a th:if="${session.is_adm == true}" th:href="@{/admin}" th:object="${session}">
+        <p>Área de administrador</p>
+    </a>
+    <a th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}">
+        <p>Sair</p>
+    </a>
 </body>
 </html>
