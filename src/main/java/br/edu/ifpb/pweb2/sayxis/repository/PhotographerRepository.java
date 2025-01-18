@@ -16,15 +16,19 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
     }
 
     // Exemplo de consulta JPQL: Buscar fotógrafos por país
-    @Query("SELECT f FROM Photographer f WHERE f.pais = :pais")
+    @Query("SELECT f FROM Photographer f WHERE f.country = :pais")
     static List<Photographer> findByPais(@Param("pais") String pais) {
         return null;
     }
 
     // Exemplo de consulta nativa: Buscar fotógrafos por cidade
-    @Query(value = "SELECT * FROM Photographer WHERE cidade = :cidade", nativeQuery = true)
+    @Query(value = "SELECT * FROM Photographer WHERE city = :cidade", nativeQuery = true)
     static List<Photographer> findByCidade(@Param("cidade") String cidade) {
         return null;
     }
 
+    Photographer findByEmail(String email);
+
+    @Query("select p from Photographer p where p.is_suspended = true")
+    List<Photographer> findSuspendeds();
 }
