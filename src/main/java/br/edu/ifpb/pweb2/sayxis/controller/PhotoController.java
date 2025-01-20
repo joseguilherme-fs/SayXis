@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -105,5 +107,17 @@ public class PhotoController {
         }
 
         return "redirect:/photos/create"; // Redireciona para o formulário de criação de postagem
+    }
+
+    @GetMapping("/photos/{photo_id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
+        if (photoRepository.findById(photo_id).isPresent()) {
+            Photo photo = photoRepository.findById(photo_id).get();
+            byte[] imageData = photo.getImageData();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(imageData);
+        }
+        return null;
     }
 }
