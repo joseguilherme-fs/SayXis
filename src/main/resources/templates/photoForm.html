@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/output.css}" rel="stylesheet" />
+    <title>Document</title>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<!-- Formulário Principal -->
+<div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Criar Postagem</h2>
+    </div>
+    <!-- Conteúdo do Formulário -->
+    <form class="space-y-4" th:action="@{/photos/create}" method="post" enctype="multipart/form-data">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Upload de Foto</label>
+            <input
+                    type="file"
+                    accept="image/*"
+                    name="file"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    required
+            />
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+            <textarea
+                    name="description"
+                    rows="3"
+                    class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Adicione uma descrição..."
+            ></textarea>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Hashtags</label>
+            <input
+                    type="text"
+                    id="new-tag-input"
+                    name="hashtags"
+                    class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Adicione hashtags separadas por vírgula"
+            />
+            <div id="tags-list"></div>
+        </div>
+
+        <div class="flex justify-end mt-4">
+            <button
+                    type="submit"
+                    class="ml-3 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none"
+            >
+                Publicar
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

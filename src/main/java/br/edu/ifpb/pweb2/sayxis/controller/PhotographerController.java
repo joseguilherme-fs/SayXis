@@ -18,7 +18,7 @@ public class PhotographerController {
     PhotographerService photographerService;
 
     @GetMapping("/login")
-    public String getLoginPage(Model model, @ModelAttribute("photographerData") PhotographerDTO photographerData) {
+    public String  Page(Model model, @ModelAttribute("photographerData") PhotographerDTO photographerData) {
         model.addAttribute("photographerData", photographerData);
         return "login";
     }
@@ -50,7 +50,7 @@ public class PhotographerController {
     }
 
     // retorna null caso o atributo "user_id" estiver vazio
-    public String isLogged(HttpSession session) {
-        return (String) session.getAttribute("user_id");
+    public Integer isLogged(HttpSession session) {
+        return (Integer) session.getAttribute("user_id");
     }
 }
