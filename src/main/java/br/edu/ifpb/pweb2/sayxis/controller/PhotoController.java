@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
-
-
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 @RequestMapping("/photos")
@@ -98,5 +98,17 @@ public class PhotoController {
             model.addAttribute("successMessage", "Envio da foto realizado com sucesso.");
 
         return "redirect:/photos/create";
+    }
+
+    @GetMapping("/photos/{photo_id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
+        Photo photo = photoService.findById(photo_id);
+        if (photo != null) {
+            byte[] imageData = photo.getImageData();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(imageData);
+        }
+        return null;
     }
 }
