@@ -20,5 +20,8 @@
   "homepage": "https://github.com/joseguilherme-fs/SayXis#readme",
   "devDependencies": {
     "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "sayxis": "file:"
   }
 }

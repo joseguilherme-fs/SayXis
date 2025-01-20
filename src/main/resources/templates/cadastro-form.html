@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-full bg-white" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Fotógrafo</title>
+    <link th:href="@{/style.css}" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-full">
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo da SAYXIS">
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Cadastre-se como Fotógrafo</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form th:action="@{/photographers/cadastro}" method="POST" th:object="${photographer}" enctype="multipart/form-data" class="space-y-6">
+            <!-- Mensagem de erro ou sucesso -->
+            <div th:if="${mensagem}" class="text-center text-red-500 font-semibold">
+                <p th:text="${mensagem}"></p>
+            </div>
+
+            <!-- Nome -->
+            <div>
+                <label for="name" class="block text-sm/6 font-medium text-gray-900">Nome</label>
+                <div class="mt-2">
+                    <input type="text" th:field="*{name}" id="name" name="name" required
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+                <div class="mt-2">
+                    <input type="email" th:field="*{email}" id="email" name="email" required
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- Senha -->
+            <div>
+                <label for="senha" class="block text-sm/6 font-medium text-gray-900">Senha</label>
+                <div class="mt-2">
+                    <input type="password" th:field="*{senha}" id="senha" name="senha" required
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- Foto de Perfil -->
+            <div>
+                <label for="fotoPerfil" class="block text-sm/6 font-medium text-gray-900">Foto de Perfil</label>
+                <div class="mt-2">
+                    <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*"
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- Cidade -->
+            <div>
+                <label for="cidade" class="block text-sm/6 font-medium text-gray-900">Cidade</label>
+                <div class="mt-2">
+                    <input type="text" th:field="*{cidade}" id="cidade" name="cidade"
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- País -->
+            <div>
+                <label for="pais" class="block text-sm/6 font-medium text-gray-900">País</label>
+                <div class="mt-2">
+                    <input type="text" th:field="*{pais}" id="pais" name="pais"
+                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+
+            <!-- Botão de Cadastro -->
+            <div>
+                <button type="submit"
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Cadastrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
