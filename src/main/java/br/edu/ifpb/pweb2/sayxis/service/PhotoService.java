@@ -29,6 +29,7 @@ public class PhotoService implements Service<Photo, Integer>{
         }
         return photo;    }
 
+
     @Override
     public Photo save(Photo photo) {
         return photoRepository.save(photo);

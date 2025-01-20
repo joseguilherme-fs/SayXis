@@ -17,12 +17,24 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "photographer_id")
     private Photographer photographer;
+
     @ManyToOne
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
     private String commentText;
+
+    private Boolean isCaption = false;
+
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
 }

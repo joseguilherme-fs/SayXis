@@ -45,7 +45,7 @@ public class PhotoController {
     @PostMapping("/create")
     public String createPhoto(
             @RequestParam("file") MultipartFile file,
-            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "caption", required = false) String caption,
             @RequestParam(value = "hashtags", required = false) String hashtags,
             HttpSession session,
             Model model
@@ -89,12 +89,12 @@ public class PhotoController {
             }
 
             // Adiciona descrição como comentário, se houver
-            if (description != null && !description.isEmpty()) {
+            if (caption!= null && !caption.isEmpty()) {
                 Comment comment = new Comment();
                 comment.setPhotographer(photographer);
                 comment.setPhoto(photo);
-                comment.setCommentText(description);
-                comment.setCreatedAt(LocalDateTime.now());
+                comment.setCommentText(caption);
+                comment.setIsCaption(true);
                 commentService.save(comment);
             }
 
