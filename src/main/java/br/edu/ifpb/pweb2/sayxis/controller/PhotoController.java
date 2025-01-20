@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,7 @@ public class PhotoController {
             HttpSession session,
             Model model
     ) {
+        try {
             Integer idPhotographer = photographerController.isLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
 
@@ -96,6 +99,11 @@ public class PhotoController {
             }
 
             model.addAttribute("successMessage", "Envio da foto realizado com sucesso.");
+
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "Erro ao enviar a foto: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return "redirect:/photos/create";
     }
