@@ -2,15 +2,15 @@ package br.edu.ifpb.pweb2.sayxis.controller;
 
 import br.edu.ifpb.pweb2.sayxis.model.*;
 import br.edu.ifpb.pweb2.sayxis.repository.*;
+import br.edu.ifpb.pweb2.sayxis.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
+
 
 
 @Controller
@@ -18,26 +18,26 @@ import java.time.LocalDateTime;
 public class PhotoController {
 
     @Autowired
-    private PhotoRepository photoRepository;
+    private PhotoService photoService;
 
     @Autowired
     private PhotographerController photographerController;
 
     @Autowired
-    private TagRepository tagRepository;
+    private TagService tagService;
 
     @Autowired
-    private PhotoTagRepository photoTagRepository;
+    private PhotoTagService photoTagService;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
     @Autowired
-    private PhotographerRepository photographerRepository;
+    private PhotographerService photographerService;
 
     @GetMapping("/create")
     public String showCreatePhotoForm() {
-        return "photoForm";
+        return "photo-form";
     }
 
     @PostMapping("/create")
@@ -48,28 +48,26 @@ public class PhotoController {
             HttpSession session,
             Model model
     ) {
-        try {
             Integer idPhotographer = photographerController.isLogged(session);
-            Photographer photographer = photographerRepository.findById(idPhotographer)
-                    .orElseThrow(() -> new IllegalArgumentException("Photographer not found"));
+            Photographer photographer = photographerService.findById(idPhotographer);
 
             // Salva a foto
             Photo photo = new Photo();
             photo.setPhotographer(photographer);
             photo.setImageUrl(null);
             photo.setImageData(file.getBytes());
-            Photo savedPhoto = photoRepository.save(photo);
+            Photo savedPhoto = photoService.save(photo);
 
             // Adiciona hashtags, se houver
             if (hashtags != null && !hashtags.isEmpty()) {
                 String[] tagsArray = hashtags.split(",");
                 for (String tag : tagsArray) {
-                    String TagName = tag.trim();
+                    String TagName = tag.trim().toLowerCase();
                     if (!TagName.isEmpty()) {
                         // Cria uma nova tag
                         Tag newTag = new Tag();
                         newTag.setTagName(TagName);
-                        Tag savedTag = tagRepository.save(newTag);
+                        Tag savedTag = tagService.save(newTag);
 
                         // Cria um objeto PhotoTagId
                         PhotoTagId photoTagId = new PhotoTagId();
@@ -79,10 +77,10 @@ public class PhotoController {
                         // Cria o relacionamento PhotoTag
                         PhotoTag photoTag = new PhotoTag();
                         photoTag.setId(photoTagId);
-                        photoTag.setPhoto(savedPhoto); // savedPhoto é a foto salva
+                        photoTag.setPhoto(savedPhoto);
                         photoTag.setTag(savedTag);
 
-                        photoTagRepository.save(photoTag);
+                        photoTagService.save(photoTag);
                     }
                 }
             }
@@ -94,16 +92,11 @@ public class PhotoController {
                 comment.setPhoto(photo);
                 comment.setCommentText(description);
                 comment.setCreatedAt(LocalDateTime.now());
-                commentRepository.save(comment);
+                commentService.save(comment);
             }
 
             model.addAttribute("successMessage", "Envio da foto realizado com sucesso.");
 
-        } catch (IOException e) {
-            model.addAttribute("errorMessage", "Erro ao enviar a foto: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return "redirect:/photos/create"; // Redireciona para o formulário de criação de postagem
+        return "redirect:/photos/create";
     }
 }
