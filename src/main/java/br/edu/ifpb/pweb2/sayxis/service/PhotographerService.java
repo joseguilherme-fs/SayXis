@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PhotographerService {
@@ -23,12 +22,8 @@ public class PhotographerService {
                 .orElseThrow(() -> new RuntimeException("Fotográfo não encontrado."));
     }
 
-    public Photographer save(Photographer photographer) {
-        if(findById(photographer.getId()) != null) {
-            return null;
-        } else {
-            return photographerRepository.save(photographer);
-        }
+    public void save(Photographer photographer) {
+        photographerRepository.save(photographer);
     }
 
     public Photographer findByEmail(String email){

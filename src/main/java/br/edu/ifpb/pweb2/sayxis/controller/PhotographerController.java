@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
 
 @Controller
 @RequestMapping("/photographer")
@@ -23,9 +22,7 @@ public class PhotographerController {
     @Autowired
     PhotographerService photographerService;
 
-    @Autowired
-    private PhotographerRepository photographerRepository;
-
+    //retorna a página de cadastro de fotógrafo
     @GetMapping("/cadastro")
     public ModelAndView getForm(Photographer photographer, BindingResult validation, ModelAndView model) {
         model.addObject("photographer", photographer);
@@ -33,11 +30,12 @@ public class PhotographerController {
         return model;
     }
 
+    //cadastra um fotógrafo
     @PostMapping("/cadastro")
     public ModelAndView cadastrar( Photographer photographer, ModelAndView model,
                                               RedirectAttributes redAttrs) {
         try {
-            // Verificação manual de campos obrigatórios
+            //verifica manualmente os campos obrigatórios
             if (
                     photographer.getName() == null || photographer.getName().isEmpty() ||
                     photographer.getEmail() == null || photographer.getEmail().isEmpty() ||
@@ -46,7 +44,7 @@ public class PhotographerController {
                 throw new IllegalArgumentException("Erro: Nome, email e senha são obrigatórios.");
             }
 
-            // Configuração de campos opcionais, caso não estejam preenchidos
+            //configura campos opcionais, caso não estejam preenchidos
             if (photographer.getCity() == null) {
                 photographer.setCity("Cidade não informada");
             }
@@ -54,10 +52,10 @@ public class PhotographerController {
                 photographer.setCountry("País não informado");
             }
 
-            // Salvando o fotógrafo
-            photographerRepository.save(photographer);
+            //salva o fotógrafo
+            photographerService.save(photographer);
 
-            // Redirecionamento e mensagem de sucesso
+            //redirecionamento e mensagem de sucesso
             redAttrs.addFlashAttribute("mensagem", "Fotógrafo cadastrado com sucesso!");
             model.setViewName("redirect:/cadastro-form");
         } catch (IllegalArgumentException e) {
@@ -71,13 +69,14 @@ public class PhotographerController {
     }
 
 
-
+    //retorna a página de login
     @GetMapping("/login")
-    public String  Page(Model model, @ModelAttribute("photographerData") PhotographerDTO photographerData) {
+    public String getLoginPage(Model model, @ModelAttribute("photographerData") PhotographerDTO photographerData) {
         model.addAttribute("photographerData", photographerData);
         return "login";
     }
 
+    //salva o id do usuário que está fazendo o login na sessão do HTTP
     @PostMapping("/login")
     public String login(PhotographerDTO photographerData, HttpSession session, RedirectAttributes ra) {
         Photographer photographer = photographerService.findByEmail(photographerData.getEmail());
@@ -98,15 +97,15 @@ public class PhotographerController {
         return "/index";
     }
 
+    //retira o id do usuário da sessão HTTP
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/photographer/login";
     }
 
-    // retorna null caso o atributo "user_id" estiver vazio
-    public Integer isLogged(HttpSession session) {
+    //retorna o id do usuário logado ou null caso "user_id" esteja vazio
+    public Integer userLogged(HttpSession session) {
         return (Integer) session.getAttribute("user_id");
     }
 }
-

@@ -2,7 +2,6 @@ package br.edu.ifpb.pweb2.sayxis.controller;
 
 import br.edu.ifpb.pweb2.sayxis.model.*;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
-import br.edu.ifpb.pweb2.sayxis.repository.*;
 import br.edu.ifpb.pweb2.sayxis.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -30,9 +29,6 @@ public class PhotoController {
     private TagService tagService;
 
     @Autowired
-    private PhotoTagService photoTagService;
-
-    @Autowired
     private CommentService commentService;
 
     @Autowired
@@ -41,11 +37,13 @@ public class PhotoController {
     @Autowired
     private LikeService likeService;
 
+    //retorna a página de criação da publicação
     @GetMapping("/create")
     public String showCreatePhotoForm() {
-        return "photo-form";
+        return "/photo-form";
     }
 
+    //cria uma publicação de foto
     @PostMapping("/create")
     public String createPhoto(
             @RequestParam("file") MultipartFile file,
@@ -55,29 +53,29 @@ public class PhotoController {
             Model model
     ) {
         try {
-            Integer idPhotographer = photographerController.isLogged(session);
+            Integer idPhotographer = photographerController.userLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
 
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes());
 
-            // Adiciona hashtags, se houver
+            //adiciona hashtags, se houver
             if (hashtags != null && !hashtags.isEmpty()) {
                 String[] tagsArray = hashtags.split(",");
                 for (String tag : tagsArray) {
                     String TagName = tag.trim().toLowerCase();
                     if (!TagName.isEmpty()) {
-                        // Cria uma nova tag
+                        //cria uma nova tag
                         Tag savedTag = tagService.addTag(TagName);
 
-                        // Cria um objeto PhotoTagId
+                        //cria um objeto PhotoTagId
                         PhotoTagId savedPhotoTagId = tagService.addPhotoTagId(savedPhoto.getId(), savedTag.getId());
 
-                        // Cria o relacionamento PhotoTag
+                        //cria o relacionamento PhotoTag
                         tagService.addPhotoTag(savedPhotoTagId,savedPhoto,savedTag);
                     }
                 }
             }
-            // Adiciona descrição como comentário, se houver
+            //adiciona descrição como comentário, se houver
             if (caption!= null && !caption.isEmpty()) {
                 commentService.addComment(photographer, savedPhoto, caption);
             }
@@ -90,6 +88,7 @@ public class PhotoController {
         return "redirect:/photos/create";
     }
 
+    //retorna a página da foto
     @GetMapping("/{photo_id}")
     public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id) {
         String link_photo = "http://localhost:8080/photos/" + photo_id + "/image";
@@ -104,6 +103,7 @@ public class PhotoController {
         return "/photo";
     }
 
+    //retorna a imagem da página da foto
     @GetMapping("/{photo_id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
         Photo photo = photoService.findById(photo_id);
