@@ -12,6 +12,9 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-    @Query("select c from Comment c where c.photo = :photo")
+    @Query("select c from Comment c where c.photo = :photo and c.isCaption = false")
     List<Comment> getComments(@Param("photo") Photo photo);
+
+    @Query("select c from Comment c where c.photo = :photo and c.isCaption = true")
+    Comment getCaption(@Param("photo") Photo photo);
 }
