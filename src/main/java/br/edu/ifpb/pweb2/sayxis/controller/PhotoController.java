@@ -105,8 +105,6 @@ public class PhotoController {
     }
 
     @GetMapping("/{photo_id}/image")
-
-    @GetMapping("/photos/{photo_id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
         Photo photo = photoService.findById(photo_id);
         if (photo != null) {

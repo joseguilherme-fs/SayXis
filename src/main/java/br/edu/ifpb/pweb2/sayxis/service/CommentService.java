@@ -44,8 +44,9 @@ public class CommentService {
     }
 
     public List<Comment> getComments(Integer photoId) {
-        if (photoService.findById(photoId) != null) {
-            return commentRepository.getComments(photoId);
+        Photo photo = photoService.findById(photoId);
+        if (photo != null) {
+            return commentRepository.getComments(photo);
         } else {
             return null;
         }
