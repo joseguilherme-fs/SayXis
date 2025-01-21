@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Área de Administrador</title>
+    <link th:href="@{/admin.css}" rel="stylesheet" />
+</head>
+<body>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Status da conta</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Sofia</td>
+            <td>sofia@mail.com</td>
+            <td>Ativa</td>
+            <td>
+                <button class="btn-edit">Editar dados</button>
+                <button class="btn-suspend">Suspender</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

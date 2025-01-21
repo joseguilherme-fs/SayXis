@@ -1,0 +1,79 @@
+/*estilização das tabelas*/
+.table {
+    border: 1px solid #dedede;
+    border-radius: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table th, .table td {
+    padding: 8px 20px;
+    border: 1px solid #dedede;
+}
+
+.table thead th {
+    background-color: #e3e6ff;
+    color: #000d30;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.table tbody tr:hover {
+    background-color: #e7e7e7;
+    cursor: pointer;
+}
+
+/*arredondando cantos*/
+.table thead th:first-child {
+    border-top-left-radius: 20px;
+}
+.table thead th:last-child {
+    border-top-right-radius: 20px;
+}
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+/*estilização dos botões*/
+.btn-edit, .btn-suspend {
+    padding: 8px 14px;
+    margin: 2px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-edit {
+    background-color: #dce6ff;
+    color: #000d30;
+}
+
+.btn-edit:hover {
+    background-color: #b5c8ff;
+}
+
+.btn-suspend {
+    background-color: #ffdddd;
+    color: #801919;
+}
+
+.btn-suspend:hover {
+    background-color: #ffbfbf;
+}
