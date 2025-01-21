@@ -38,6 +38,9 @@ public class PhotoController {
     @Autowired
     private PhotographerService photographerService;
 
+    @Autowired
+    private LikeService likeService;
+
     @GetMapping("/create")
     public String showCreatePhotoForm() {
         return "photo-form";
@@ -86,6 +89,22 @@ public class PhotoController {
 
         return "redirect:/photos/create";
     }
+
+    @GetMapping("/{photo_id}")
+    public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id) {
+        String link_photo = "http://localhost:8080/photos/" + photo_id + "/image";
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        model.addAttribute("linkPhoto", link_photo);
+        model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
+        model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
+        model.addAttribute("comments", commentService.getComments(photo_id));
+        if (photoService.getCaption(commentService.getComments(photo_id)) != null) {
+            model.addAttribute("caption", photoService.getCaption(commentService.getComments(photo_id)).getCommentText());
+        }
+        return "/photo";
+    }
+
+    @GetMapping("/{photo_id}/image")
 
     @GetMapping("/photos/{photo_id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
