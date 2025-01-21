@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-@RequestMapping("/photos")
+@RequestMapping("/photo")
 public class PhotoController {
 
     @Autowired
@@ -41,14 +41,14 @@ public class PhotoController {
     private PhotoTagService photoTagService;
 
     //retorna a página de criação da publicação
-    @GetMapping("/create")
-    public String showCreatePhotoForm() {
+    @GetMapping("/upload")
+    public String showUploadPhotoForm() {
         return "/photo-form";
     }
 
-    //cria uma publicação de foto
-    @PostMapping("/create")
-    public String createPhoto(
+    //cria uma publicação
+    @PostMapping("/upload")
+    public String uploadPhoto(
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "caption", required = false) String caption,
             @RequestParam(value = "hashtags", required = false) String hashtags,
@@ -58,7 +58,6 @@ public class PhotoController {
         try {
             Integer idPhotographer = photographerController.userLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
-
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes());
 
             //adiciona hashtags, se houver
@@ -79,7 +78,7 @@ public class PhotoController {
                     }
                 }
             }
-            //adiciona descrição como comentário, se houver
+            //adiciona legenda como comentário, se houver
             if (caption!= null && !caption.isEmpty()) {
                 commentService.addComment(photographer, savedPhoto, caption);
             }
@@ -89,7 +88,7 @@ public class PhotoController {
             model.addAttribute("errorMessage", "Erro ao enviar a foto: " + e.getMessage());
         }
 
-        return "redirect:/photos/create";
+        return "redirect:/photo/upload";
     }
 
     //retorna a página da foto

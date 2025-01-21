@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -24,4 +27,12 @@ public class Photographer {
     private byte[] profile_photo = null;
     private String city = null;
     private String country = null;
+
+    @ManyToMany
+    @JoinTable(
+            name = "following",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "followed_id")
+    )
+    private List<Photographer> following = new ArrayList<>();
 }
