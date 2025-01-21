@@ -37,6 +37,9 @@ public class PhotoController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private PhotoTagService photoTagService;
+
     //retorna a página de criação da publicação
     @GetMapping("/create")
     public String showCreatePhotoForm() {
@@ -61,8 +64,9 @@ public class PhotoController {
             //adiciona hashtags, se houver
             if (hashtags != null && !hashtags.isEmpty()) {
                 String[] tagsArray = hashtags.split(",");
+                String TagName;
                 for (String tag : tagsArray) {
-                    String TagName = tag.trim().toLowerCase();
+                    TagName = tag.trim().toLowerCase();
                     if (!TagName.isEmpty()) {
                         //cria uma nova tag
                         Tag savedTag = tagService.addTag(TagName);
@@ -97,6 +101,7 @@ public class PhotoController {
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
         model.addAttribute("comments", commentService.getComments(photo_id));
+        model.addAttribute("tags", photoTagService.getTags(photo_id));
         if (commentService.getCaption(photo_id) != null) {
             model.addAttribute("caption", commentService.getCaption(photo_id).getCommentText());
         }
