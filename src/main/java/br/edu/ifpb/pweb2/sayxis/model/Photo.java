@@ -25,6 +25,6 @@ public class Photo {
     @JoinColumn(name = "photographer_id")
     private Photographer photographer;
 
-    private String imageUrl;
+    private String imageUrl = null;
     private byte[] imageData;
 }

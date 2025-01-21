@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PhotographerRepository extends JpaRepository<Photographer, Integer> {
-     // Exemplo de método customizado: Buscar fotógrafos por nome
+     // Buscar fotógrafos por nome
      static List<Photographer> findByNomeContainingIgnoreCase(String nome) {
         return null;
     }
@@ -31,4 +32,6 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
 
     @Query("select p from Photographer p where p.is_suspended = true")
     List<Photographer> findSuspendeds();
+
+    Optional<Photographer> findById(Integer id);
 }

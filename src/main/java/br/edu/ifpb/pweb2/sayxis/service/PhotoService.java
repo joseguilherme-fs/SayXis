@@ -1,36 +1,38 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
 import br.edu.ifpb.pweb2.sayxis.model.Photo;
-import br.edu.ifpb.pweb2.sayxis.model.Photo;
+import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
-@Component
-public class PhotoService implements Service<Photo, Integer>{
+
+@Service
+public class PhotoService {
 
     @Autowired
     private PhotoRepository photoRepository;
 
-    @Override
     public List<Photo> findAll() {
         return photoRepository.findAll();
     }
 
-    @Override
     public Photo findById(Integer photo_id) {
-        Photo photo = null;
-        Optional<Photo> opPhoto = photoRepository.findById(photo_id);
-        if (opPhoto.isPresent()) {
-            photo = opPhoto.get();
-        }
-        return photo;    }
+        return photoRepository.findById(photo_id)
+                .orElseThrow(() -> new RuntimeException("Foto não encontrada."));
+    }
 
 
-    @Override
+    public PhotoDTO addPhoto(Photographer photographer, byte[] imageData) {
+        Photo photo = Photo.builder()
+                .photographer(photographer)
+                .imageData(imageData)
+                .build();
+        return new PhotoDTO(save(photo));
+    }
+
     public Photo save(Photo photo) {
         return photoRepository.save(photo);
     }

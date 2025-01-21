@@ -3,21 +3,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Data
 @Entity
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Tag {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String tagName;
 
-    public Integer getId() {
-        return id;
-    }
 }

@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
 import br.edu.ifpb.pweb2.sayxis.model.*;
+import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.*;
 import br.edu.ifpb.pweb2.sayxis.service.*;
 import jakarta.servlet.http.HttpSession;
@@ -54,12 +55,7 @@ public class PhotoController {
             Integer idPhotographer = photographerController.isLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
 
-            // Salva a foto
-            Photo photo = new Photo();
-            photo.setPhotographer(photographer);
-            photo.setImageUrl(null);
-            photo.setImageData(file.getBytes());
-            Photo savedPhoto = photoService.save(photo);
+            PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes());
 
             // Adiciona hashtags, se houver
             if (hashtags != null && !hashtags.isEmpty()) {
@@ -68,41 +64,24 @@ public class PhotoController {
                     String TagName = tag.trim().toLowerCase();
                     if (!TagName.isEmpty()) {
                         // Cria uma nova tag
-                        Tag newTag = new Tag();
-                        newTag.setTagName(TagName);
-                        Tag savedTag = tagService.save(newTag);
+                        Tag savedTag = tagService.addTag(TagName);
 
                         // Cria um objeto PhotoTagId
-                        PhotoTagId photoTagId = new PhotoTagId();
-                        photoTagId.setPhoto_id(savedPhoto.getId());
-                        photoTagId.setTag_id(savedTag.getId());
+                        PhotoTagId savedPhotoTagId = tagService.addPhotoTagId(savedPhoto.getId(), savedTag.getId());
 
                         // Cria o relacionamento PhotoTag
-                        PhotoTag photoTag = new PhotoTag();
-                        photoTag.setId(photoTagId);
-                        photoTag.setPhoto(savedPhoto);
-                        photoTag.setTag(savedTag);
-
-                        photoTagService.save(photoTag);
+                        tagService.addPhotoTag(savedPhotoTagId,savedPhoto,savedTag);
                     }
                 }
             }
-
             // Adiciona descrição como comentário, se houver
             if (caption!= null && !caption.isEmpty()) {
-                Comment comment = new Comment();
-                comment.setPhotographer(photographer);
-                comment.setPhoto(photo);
-                comment.setCommentText(caption);
-                comment.setIsCaption(true);
-                commentService.save(comment);
+                commentService.addComment(photographer, savedPhoto, caption);
             }
-
             model.addAttribute("successMessage", "Envio da foto realizado com sucesso.");
 
         } catch (IOException e) {
             model.addAttribute("errorMessage", "Erro ao enviar a foto: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return "redirect:/photos/create";

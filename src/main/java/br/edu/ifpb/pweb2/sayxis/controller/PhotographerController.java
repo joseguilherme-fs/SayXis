@@ -1,5 +1,12 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
+<<<<<<< Updated upstream
+=======
+import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
+import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
+import jakarta.servlet.http.HttpSession;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
