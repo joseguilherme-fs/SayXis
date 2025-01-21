@@ -2,6 +2,8 @@ package br.edu.ifpb.pweb2.sayxis.service;
 
 import br.edu.ifpb.pweb2.sayxis.model.Like;
 import br.edu.ifpb.pweb2.sayxis.model.LikeId;
+import br.edu.ifpb.pweb2.sayxis.model.Photo;
+import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class LikeService{
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private PhotographerService photographerService;
 
     public List<Like> findAll() {
         return likeRepository.findAll();
@@ -36,16 +41,19 @@ public class LikeService{
     }
 
     public Integer countLikes(Integer photoId) {
-        if (photoService.findById(photoId) != null) {
-            return likeRepository.countLikes(photoId);
+        Photo photo = photoService.findById(photoId);
+        if (photo != null) {
+            return likeRepository.countLikes(photo);
         } else {
             return null;
         }
     }
 
     public Boolean isLiked(Integer photographerId, Integer photoId) {
-        if (photoService.findById(photoId) != null) {
-            return likeRepository.isLiked(photographerId, photoId);
+        Photographer photographer = photographerService.findById(photographerId);
+        Photo photo = photoService.findById(photoId);
+        if (photo != null) {
+            return likeRepository.isLiked(photographer, photo);
         } else {
             return null;
         }
