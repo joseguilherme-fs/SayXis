@@ -1,12 +1,9 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
-<<<<<<< Updated upstream
-=======
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import jakarta.servlet.http.HttpSession;
->>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import br.edu.ifpb.pweb2.sayxis.model.Photographer;
-import br.edu.ifpb.pweb2.sayxis.model.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
-import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
-import jakarta.servlet.http.HttpSession;
-
-
-
 
 @Controller
 @RequestMapping("/photographer")
@@ -34,7 +23,7 @@ public class PhotographerController {
     @Autowired
     PhotographerService photographerService;
 
-     @Autowired
+    @Autowired
     private PhotographerRepository photographerRepository;
 
     @GetMapping("/cadastro")
