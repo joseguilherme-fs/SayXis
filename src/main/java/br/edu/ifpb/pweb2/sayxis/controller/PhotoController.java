@@ -97,8 +97,8 @@ public class PhotoController {
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
         model.addAttribute("comments", commentService.getComments(photo_id));
-        if (photoService.getCaption(commentService.getComments(photo_id)) != null) {
-            model.addAttribute("caption", photoService.getCaption(commentService.getComments(photo_id)).getCommentText());
+        if (commentService.getCaption(photo_id) != null) {
+            model.addAttribute("caption", commentService.getCaption(photo_id).getCommentText());
         }
         return "/photo";
     }
