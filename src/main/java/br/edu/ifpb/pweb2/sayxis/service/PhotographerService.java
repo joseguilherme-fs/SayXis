@@ -13,10 +13,6 @@ public class PhotographerService {
     @Autowired
     private PhotographerRepository photographerRepository;
 
-    public List<Photographer> findAll() {
-        return photographerRepository.findAll();
-    }
-
     public Photographer findById(Integer id) {
         return photographerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Fotográfo não encontrado."));

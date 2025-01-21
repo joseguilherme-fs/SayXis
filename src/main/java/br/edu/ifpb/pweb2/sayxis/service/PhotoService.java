@@ -17,10 +17,6 @@ public class PhotoService {
     @Autowired
     private PhotoRepository photoRepository;
 
-    public List<Photo> findAll() {
-        return photoRepository.findAll();
-    }
-
     public Photo findById(Integer photo_id) {
         return photoRepository.findById(photo_id)
                 .orElseThrow(() -> new RuntimeException("Foto não encontrada."));

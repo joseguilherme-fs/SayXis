@@ -20,10 +20,6 @@ public class LikeService{
     @Autowired
     private PhotographerService photographerService;
 
-    public List<Like> findAll() {
-        return likeRepository.findAll();
-    }
-
     public Like findById(LikeId like_id) {
         return likeRepository.findById(like_id)
                 .orElseThrow(() -> new RuntimeException("Like não encontrado."));

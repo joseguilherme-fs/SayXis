@@ -21,10 +21,6 @@ public class CommentService {
     @Autowired
     private PhotoService photoService;
 
-    public List<Comment> findAll() {
-        return commentRepository.findAll();
-    }
-
     public Comment findById(Integer comment_id) {
         return commentRepository.findById(comment_id)
                 .orElseThrow(() -> new RuntimeException("Comentário não encontrado."));
