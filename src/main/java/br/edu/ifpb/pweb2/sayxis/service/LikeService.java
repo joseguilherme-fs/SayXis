@@ -1,9 +1,6 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
-import br.edu.ifpb.pweb2.sayxis.model.Like;
-import br.edu.ifpb.pweb2.sayxis.model.LikeId;
-import br.edu.ifpb.pweb2.sayxis.model.Photo;
-import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.model.*;
 import br.edu.ifpb.pweb2.sayxis.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +24,9 @@ public class LikeService{
         return likeRepository.findAll();
     }
 
-    public Like findById(LikeId likeId) {
-        Like like = null;
-        Optional<Like> likeOptional = likeRepository.findById(likeId);
-        if(likeOptional.isPresent()){
-            like = likeOptional.get();
-        }
-        return like;
+    public Like findById(LikeId like_id) {
+        return likeRepository.findById(like_id)
+                .orElseThrow(() -> new RuntimeException("Like não encontrado."));
     }
 
     public Like save(Like like) {
