@@ -51,4 +51,13 @@ public class CommentService {
             return null;
         }
     }
+
+    public Comment getCaption(Integer photoId) {
+        Photo photo = photoService.findById(photoId);
+        if (photo != null) {
+            return commentRepository.getCaption(photo);
+        } else {
+            return null;
+        }
+    }
 }

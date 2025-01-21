@@ -39,14 +39,4 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-    public Comment getCaption(List<Comment> comments) {
-        Comment caption = null;
-        Optional<Comment> photoCaption = comments.stream()
-                .filter(Comment::getIsCaption)
-                .findFirst();
-        if (photoCaption.isPresent()) {
-            caption = photoCaption.get();
-        }
-        return caption;
-    }
 }
