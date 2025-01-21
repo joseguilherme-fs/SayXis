@@ -1,19 +1,22 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.model.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 
 
 
@@ -28,21 +31,23 @@ public class PhotographerController {
     private PhotographerRepository photographerRepository;
 
     @GetMapping("/cadastro")
-    public ModelAndView getForm(Photographer photographer, ModelAndView model) {
+    public ModelAndView getForm(Photographer photographer, BindingResult validation, ModelAndView model) {
         model.addObject("photographer", photographer);
         model.setViewName("/cadastro-form");
         return model;
     }
 
     @PostMapping("/cadastro")
-    public ModelAndView cadastrar(@Valid Photographer photographer, BindingResult validation, ModelAndView model,
+    public ModelAndView cadastrar( Photographer photographer, ModelAndView model,
                                               RedirectAttributes redAttrs) {
         try {
-            // Verificação de erros de validação
-            if (validation.hasErrors()) {
-                model.setViewName("/cadastro-form");
-                model.addObject("photographer", photographer);
-                return model;
+            // Verificação manual de campos obrigatórios
+            if (
+                    photographer.getName() == null || photographer.getName().isEmpty() ||
+                    photographer.getEmail() == null || photographer.getEmail().isEmpty() ||
+                    photographer.getPassword() == null || photographer.getPassword().isEmpty()) {
+
+                throw new IllegalArgumentException("Erro: Nome, email e senha são obrigatórios.");
             }
 
             // Configuração de campos opcionais, caso não estejam preenchidos
