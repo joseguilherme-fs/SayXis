@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
+import br.edu.ifpb.pweb2.sayxis.model.Comment;
 import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
@@ -7,6 +8,7 @@ import br.edu.ifpb.pweb2.sayxis.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -35,5 +37,16 @@ public class PhotoService {
 
     public Photo save(Photo photo) {
         return photoRepository.save(photo);
+    }
+
+    public Comment getCaption(List<Comment> comments) {
+        Comment caption = null;
+        Optional<Comment> photoCaption = comments.stream()
+                .filter(Comment::getIsCaption)
+                .findFirst();
+        if (photoCaption.isPresent()) {
+            caption = photoCaption.get();
+        }
+        return caption;
     }
 }
