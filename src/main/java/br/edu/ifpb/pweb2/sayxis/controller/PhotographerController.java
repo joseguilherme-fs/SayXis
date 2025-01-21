@@ -29,7 +29,7 @@ public class PhotographerController {
     @GetMapping("/cadastro")
     public ModelAndView getForm(Photographer photographer, BindingResult validation, ModelAndView model) {
         model.addObject("photographer", photographer);
-        model.setViewName("/cadastro-form");
+        model.setViewName("cadastro-form");
         return model;
     }
 
