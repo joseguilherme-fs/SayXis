@@ -14,7 +14,7 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     Optional<Photo> findById(Integer id);
 
-    @Query("SELECT COUNT(p) FROM Photo p WHERE p.photographer.id = :id")
+    @Query("SELECT COUNT(p) FROM Photo p WHERE p.photographer.id = :id AND p.is_profilePhoto = FALSE")
     long countPhotosByPhotographerId(@Param("id") Integer id);
 
     @Query("select p from Photo p where p.photographer = :photographer and p.is_profilePhoto = true")

@@ -13,5 +13,4 @@ public class PhotoDTO {
         this.id = photo.getId();
         this.photographer = photo.getPhotographer();
     }
-
 }

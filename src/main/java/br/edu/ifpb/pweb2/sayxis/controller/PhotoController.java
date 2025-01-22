@@ -60,6 +60,8 @@ public class PhotoController {
             Integer idPhotographer = photographerController.userLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes(), false);
+            Photo photo = photoService.findById(savedPhoto.getId());
+            photo.setImageUrl("http://localhost:8080/photo/" + photo.getId() + "/image");
 
             //adiciona hashtags, se houver
             if (!hashtags.isEmpty()) {

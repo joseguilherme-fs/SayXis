@@ -1,6 +1,8 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
+import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.service.PhotoService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
@@ -60,7 +62,10 @@ public class PhotographerController {
 
             if(!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
-                photoService.addPhoto(newPhotographer, file.getBytes(), true);
+                PhotoDTO savedPhoto = photoService.addPhoto(newPhotographer, file.getBytes(), true);
+                Photo photo = photoService.findById(savedPhoto.getId());
+                photo.setImageUrl("http://localhost:8080/photo/" + photo.getId() + "/image");
+                photoService.save(photo);
             }
 
             //redirecionamento e mensagem de sucesso
@@ -132,6 +137,7 @@ public class PhotographerController {
 
         // Adicionar atributos ao modelo
         model.addAttribute("photographer", photographerDB);
+        model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerDB));
         model.addAttribute("nickname", nickname);
         model.addAttribute("qntFollowers", photographerService.getFollowersCount(id));
         model.addAttribute("qntFollowing", photographerService.getFollowingCount(id));
