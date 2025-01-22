@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,17 +25,20 @@ public class PhotographerController {
     PhotoService photoService;
 
     //retorna a página de cadastro de fotógrafo
-    @GetMapping("/cadastro")
+    @GetMapping("/register")
     public ModelAndView getForm(Photographer photographer, BindingResult validation, ModelAndView model) {
         model.addObject("photographer", photographer);
-        model.setViewName("cadastro-form");
+        model.setViewName("register-form");
         return model;
     }
 
     //cadastra um fotógrafo
-    @PostMapping("/cadastro")
-    public ModelAndView cadastrar( Photographer photographer, ModelAndView model,
-                                              RedirectAttributes redAttrs) {
+    @PostMapping("/register")
+    public ModelAndView registerPhotographer(@RequestParam("profilePhoto") MultipartFile file,
+                                             Photographer photographer,
+                                             ModelAndView model,
+                                             HttpSession session,
+                                             RedirectAttributes redAttrs) {
         try {
             //verifica manualmente os campos obrigatórios
             if (
@@ -42,28 +46,33 @@ public class PhotographerController {
                     photographer.getEmail() == null || photographer.getEmail().isEmpty() ||
                     photographer.getPassword() == null || photographer.getPassword().isEmpty()) {
 
-                throw new IllegalArgumentException("Erro: Nome, email e senha são obrigatórios.");
+                throw new IllegalArgumentException("Erro: nome, email e senha são obrigatórios.");
             }
 
-            //configura campos opcionais, caso não estejam preenchidos
-            if (photographer.getCity() == null) {
-                photographer.setCity("Cidade não informada");
+            //salva o fotógrafo, adiciona foto de perfil (se houver) e trata os campos não obrigatórios
+            if (photographer.getCity().isEmpty()) {
+                photographer.setCity(null);
             }
-            if (photographer.getCountry() == null) {
-                photographer.setCountry("País não informado");
+            if (photographer.getCountry().isEmpty()) {
+                photographer.setCountry(null);
             }
-
-            //salva o fotógrafo
-            photographerService.save(photographer);
+            Photographer newPhotographer = photographerService.save(photographer);
+            if(!file.isEmpty()) {
+                newPhotographer.setProfile_photo(file.getBytes());
+                photoService.addPhoto(newPhotographer, file.getBytes());
+            }
 
             //redirecionamento e mensagem de sucesso
-            redAttrs.addFlashAttribute("mensagem", "Fotógrafo cadastrado com sucesso!");
-            model.setViewName("redirect:/cadastro-form");
+            session.setAttribute("user_id", newPhotographer.getId());
+            redAttrs.addFlashAttribute("success", "Você foi cadastrado!");
+            redAttrs.addFlashAttribute("session", session);
+            model.setViewName("redirect:/");
+
         } catch (IllegalArgumentException e) {
-            model.setViewName("/cadastro-form");
+            model.setViewName("register-form");
             model.addObject("mensagem", e.getMessage());
         } catch (Exception e) {
-            model.setViewName("/cadastro-form");
+            model.setViewName("register-form");
             model.addObject("mensagem", "Erro ao cadastrar fotógrafo: " + e.getMessage());
         }
         return model;

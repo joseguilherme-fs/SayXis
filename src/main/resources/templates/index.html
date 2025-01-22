@@ -6,6 +6,9 @@
     <link th:href="@{/output.css}" rel="stylesheet" />
 </head>
 <body>
+    <div th:if="${success}" class="text-center text-blue-800 font-semibold">
+        <p th:text="${success}"></p>
+    </div>
     <h1>Feed</h1>
     <a th:if="${session.is_adm == true}" th:href="@{/admin}" th:object="${session}">
         <p>Área de administrador</p>

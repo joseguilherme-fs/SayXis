@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
+import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class PhotographerService {
         return repository.findById(id).orElse(null);
     }
 
-    public void save(Photographer photographer) {
-        repository.save(photographer);
+    public Photographer save(Photographer photographer) {
+        return repository.save(photographer);
     }
 
     public Photographer findByEmail(String email){
