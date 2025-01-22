@@ -28,6 +28,7 @@ public class Comment {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
+    @Column(length = 512)
     private String commentText;
 
     private Boolean isCaption = false;

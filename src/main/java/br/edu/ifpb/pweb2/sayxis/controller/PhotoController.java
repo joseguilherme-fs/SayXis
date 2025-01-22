@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/photo")
@@ -139,6 +140,30 @@ public class PhotoController {
             return "redirect:/photo/{photo_id}";
         }
         return null;
+    }
+
+    @PostMapping("/{photo_id}/add-comment")
+    public String addComment(RedirectAttributes ra, HttpSession session, @PathVariable Integer photo_id, @RequestParam("comment") String commentText) {
+        if (commentText.length() > 512) {
+            ra.addFlashAttribute("tooLong", true);
+            ra.addFlashAttribute("sentComment", commentText);
+            return "redirect:/photo/{photo_id}";
+        }
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        if (photographer_id != null) {
+            Photographer photographer = photographerService.findById(photographer_id);
+            Photo photo = photoService.findById(photo_id);
+
+            Comment newComment = Comment.builder()
+                    .photographer(photographer)
+                    .photo(photo)
+                    .commentText(commentText)
+                    .isCaption(false)
+                    .build();
+
+            commentService.save(newComment);
+        }
+        return "redirect:/photo/{photo_id}";
     }
 
 }
