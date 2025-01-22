@@ -48,4 +48,21 @@ public class LikeService{
         }
     }
 
+    public void addLike(Integer photographer_id, Integer photo_id) {
+        Photographer photographer = photographerService.findById(photographer_id);
+        Photo photo = photoService.findById(photo_id);
+        LikeId likeId = new LikeId(photo_id, photographer_id);
+        if (photographer != null && photo != null) {
+            Like like = new Like(likeId, photographer, photo);
+            likeRepository.save(like);
+        }
+    }
+
+    public void removeLike(Integer photographer_id, Integer photo_id) {
+        LikeId likeId = new LikeId(photo_id, photographer_id);
+        if (findById(likeId) != null) {
+            likeRepository.deleteById(likeId);
+        }
+    }
+
 }
