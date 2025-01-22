@@ -94,13 +94,14 @@ public class PhotoController {
     //retorna a página da foto
     @GetMapping("/{photo_id}")
     public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id) {
-        String link_photo = "http://localhost:8080/photos/" + photo_id + "/image";
+        String link_photo = "http://localhost:8080/photo/" + photo_id + "/image";
         Integer photographer_id = (Integer) session.getAttribute("user_id");
         model.addAttribute("linkPhoto", link_photo);
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
         model.addAttribute("comments", commentService.getComments(photo_id));
         model.addAttribute("tags", photoTagService.getTags(photo_id));
+        model.addAttribute("photo_id", photo_id);
         if (commentService.getCaption(photo_id) != null) {
             model.addAttribute("caption", commentService.getCaption(photo_id).getCommentText());
         }
@@ -119,4 +120,25 @@ public class PhotoController {
         }
         return null;
     }
+
+    @PostMapping("/{photo_id}/like")
+    public String addLike(HttpSession session, @PathVariable Integer photo_id) {
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        if (photographer_id != null) {
+            likeService.addLike(photographer_id, photo_id);
+            return "redirect:/photo/{photo_id}";
+        }
+        return null;
+    }
+
+    @PostMapping("/{photo_id}/unlike")
+    public String removeLike(HttpSession session, @PathVariable Integer photo_id) {
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        if (photographer_id != null) {
+            likeService.removeLike(photographer_id, photo_id);
+            return "redirect:/photo/{photo_id}";
+        }
+        return null;
+    }
+
 }
