@@ -145,6 +145,7 @@ public class PhotographerController {
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("followAllowed", photographerDB.isFollowAllowed());
         model.addAttribute("isFollowing", photographerService.isFollowing(photographerDB, photographerLogged));
+        model.addAttribute("photos", photoService.findPhotosByPhotographerId(id));
 
         return "profile";
     }

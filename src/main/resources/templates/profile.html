@@ -9,9 +9,9 @@
     <link th:href="@{/style.css}" rel="stylesheet" />
 </head>
 <body>
+<div th:insert="fragments/header :: header"></div>
 
-<div
-        class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
+<div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
 <!--    Capa do perfil:-->
     <div class="rounded-t-lg h-32 overflow-hidden">
         <img class="object-cover object-top w-full" src='https://thumbs.dreamstime.com/z/fotografia-da-c%C3%A2mera-tela-de-fundo-do-vetor-padr%C3%A3o-repetido-desenho-wallpaper-uniforme-216767768.jpg?w=992' alt='Capa do Perfil'>
@@ -70,5 +70,17 @@
         </button>
     </div>
 </div>
+<div class="mt-8 max-w-2xl mx-auto">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Publicações</h3>
+    <div class="grid grid-cols-3 gap-4">
+        <a th:each="photo : ${photos}"
+           th:href="@{'/photo/' + ${photo.id}}"
+           class="block">
+            <img th:src="@{'/photo/' + ${photo.id} + '/image'}"
+                 class="object-cover w-full h-40 rounded-md hover:opacity-75 transition-opacity">
+        </a>
+    </div>
+</div>
+
 </body>
 </html>

@@ -44,3 +44,23 @@ body {
 .nav-item:hover {
     color: #1d4ed8;
 }
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+.photo-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.photo-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}

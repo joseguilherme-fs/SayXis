@@ -12,12 +12,12 @@
     <div th:if="${success}" class="text-center text-blue-800 font-semibold">
         <p th:text="${success}"></p>
     </div>
-    <h1>Feed</h1>
-    <a th:if="${session.is_adm == true}" th:href="@{/admin}" th:object="${session}">
-        <p>Área de administrador</p>
-    </a>
-    <a th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}">
-        <p>Sair</p>
-    </a>
+<div class="photo-grid">
+    <div th:each="photo : ${photos}" class="photo-card">
+        <a th:href="@{/photo/{photo_id}(photo_id=${photo.id})}">
+            <img th:src="@{${photo.imageUrl}}" alt="Foto de ${photo.photographer.name}">
+        </a>
+    </div>
+</div>
 </body>
 </html>

@@ -11,6 +11,7 @@
     <a id="logo" th:href="@{/}" title="Home"><h1>SAYXIS</h1></a>
     <div>
       <a th:href="@{/photo/upload}" th:if="${session.user_id}" class="nav-item"><i class="fa-solid fa-plus"></i> Nova foto</a>
+      <a th:href="@{/admin}" th:if="${session.is_adm}" class="nav-item"><i class="fa-solid fa-user-shield"></i> Área de Administrador</a>
       <a class="nav-item" th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
       <a class="nav-item" th:if="!${session.user_id}" th:href="@{/photographer/login}" th:object="${session}"><i class="fa-solid fa-right-to-bracket"></i> Entrar</a>
     </div>

@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Integer> {
+
+
+    List<Photo> findAll();
 
     Optional<Photo> findById(Integer id);
 
@@ -19,4 +23,7 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     @Query("select p from Photo p where p.photographer = :photographer and p.is_profilePhoto = true")
     Photo findProfilePhoto(@Param("photographer") Photographer photographer);
+
+    @Query("SELECT p FROM Photo p WHERE p.photographer.id = :photographerId AND p.is_profilePhoto = false")
+    List<Photo> findPhotosByPhotographer(@Param("photographerId") Integer photographerId);
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,6 +94,15 @@ public class PhotoController {
         }
 
         return "redirect:/photo/upload";
+    }
+
+
+    @GetMapping("/all")
+    public String getAllPhotos(Model model) {
+        List<Photo> photos = photoService.findAll();
+        Collections.shuffle(photos); // Embaralha as fotos
+        model.addAttribute("photos", photos);
+        return "index";
     }
 
     //retorna a página da foto
