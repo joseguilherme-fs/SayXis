@@ -3,35 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Área de Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link th:href="@{/admin.css}" rel="stylesheet" />
     <link th:href="@{/style.css}" rel="stylesheet" />
+    <link th:href="@{/output.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 <body>
 <div th:insert="fragments/header :: header"></div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Status da conta</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Sofia</td>
-            <td>sofia@mail.com</td>
-            <td>Ativa</td>
-            <td>
-                <button class="btn-edit">Editar dados</button>
-                <button class="btn-suspend">Suspender</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <h1>Área de Administrador</h1>
+    <a th:href="@{/admin/list-users}">
+        <button>Listar fotógrafos</button>
+    </a>
+    <table th:if="${listPhotographers}" class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status da conta</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="photographer : ${photographers}">
+                <td th:text="${photographer.id}"></td>
+                <td th:text="${photographer.name}"></td>
+                <td th:text="${photographer.email}"></td>
+                <td>
+                    <p th:if="${photographer.is_suspended == false}">Ativa</p>
+                    <p th:if="${photographer.is_suspended == true}">Suspensa</p>
+                </td>
+                <td id="admin-actions">
+                    <a th:href="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}">
+                        <button class="btn-edit">Editar dados</button>
+                    </a>
+                    <form th:action="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}" method="POST">
+                        <button type="submit" class="btn-suspend">Suspender</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>

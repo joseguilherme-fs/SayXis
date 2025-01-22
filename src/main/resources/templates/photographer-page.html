@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Fotógrafo</title>
+    <link th:href="@{/photographer-page.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Informações do Fotógrafo</h1>
+
+    <div class="content">
+        <div class="profile-photo">
+            <i class="fa-solid fa-user" th:if="${photographer.profile_photo == null}"></i>
+            <img th:src="@{'data:image/jpeg;base64,' + ${#strings.bytesToString(photographer.profile_photo)}}"
+                 th:if="${photographer.profile_photo != null}"
+                 alt="Foto do perfil">
+        </div>
+        <div class="info">
+            <div><span>Nome:</span> <span th:text="${photographer.name}"></span></div>
+            <div><span>Email:</span> <span th:text="${photographer.email}"></span></div>
+            <div>
+                <span>Cidade:</span>
+                <span th:text="${photographer.city != null ? photographer.city : 'Não informado'}"></span>
+            </div>
+            <div>
+                <span>País:</span>
+                <span th:text="${photographer.country != null ? photographer.country : 'Não informado'}"></span>
+            </div>
+            <div><span>Administrador:</span> <span th:text="${photographer.is_adm ? 'Sim' : 'Não'}"></span></div>
+            <div><span>Suspenso:</span> <span th:text="${photographer.is_suspended ? 'Sim' : 'Não'}"></span></div>
+            <div><span>Permitir seguidores:</span> <span th:text="${photographer.followAllowed ? 'Sim' : 'Não'}"></span></div>
+        </div>
+    </div>
+    <div class="actions">
+        <form th:action="@{/admin/suspend}" method="post">
+            <input type="hidden" th:value="${photographer.id}" name="photographerId">
+            <button type="submit" class="btn" th:classappend="${photographer.is_suspended ? ' suspended' : ''}"
+                    th:text="${photographer.is_suspended ? 'Reativar Fotógrafo' : 'Suspender Fotógrafo'}"></button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

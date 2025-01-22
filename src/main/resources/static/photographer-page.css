@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #2a2a2a;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f5f9ff;
+    border: 1px solid #d1e7fd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permite ajuste responsivo em telas menores */
+}
+
+h1 {
+    color: #0056b3;
+    text-align: center;
+}
+
+.profile-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    color: #0056b3;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #0056b3;
+    background-color: #f5f9ff;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.profile-photo i, .profile-photo img {
+    display: block;
+    max-width: 100%; /* Garante que a imagem ou ícone se ajuste corretamente */
+    max-height: 100%; /* Adapta o tamanho ao círculo */
+}
+
+.info {
+    text-align: left; /* Alinha as informações à esquerda */
+    max-width: 400px; /* Limita a largura das informações */
+}
+
+.info div {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.info div span:first-child {
+    font-weight: bold;
+}
+
+.actions {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn.suspended {
+    background-color: #dc3545;
+}
+
+.btn.suspended:hover {
+    background-color: #a71d2a;
+}
