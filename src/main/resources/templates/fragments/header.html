@@ -9,7 +9,12 @@
   <header id="header-fragment" th:fragment="header">
     <a th:href="@{/}" class="nav-item"><i class="fa-solid fa-house"></i> Home</a>
     <a id="logo" th:href="@{/}" title="Home"><h1>SAYXIS</h1></a>
-    <a th:href="@{/photographer/login}" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+    <div>
+      <a th:href="@{/photo/upload}" th:if="${session.user_id}" class="nav-item"><i class="fa-solid fa-plus"></i> Nova foto</a>
+      <a class="nav-item" th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+      <a class="nav-item" th:if="!${session.user_id}" th:href="@{/photographer/login}" th:object="${session}"><i class="fa-solid fa-right-to-bracket"></i> Entrar</a>
+    </div>
+
   </header>
 
 </body>

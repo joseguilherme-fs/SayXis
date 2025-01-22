@@ -34,6 +34,7 @@ body {
 }
 
 .nav-item {
+    margin: 0 10px;
     text-decoration: none;
     color: #333;
     font-weight: 600;
