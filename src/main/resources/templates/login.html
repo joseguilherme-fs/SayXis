@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="h-full bg-white" xmlns:th="https://thymeleaf.org">
+<html lang="pt-br" class="h-full bg-white" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Acessar conta</title>
     <link th:href="@{/output.css}" rel="stylesheet" />
     <link th:href="@{/style.css}" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 
 <body class="h-full">
+<div th:insert="fragments/header :: header"></div>
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo da SAYXIS">

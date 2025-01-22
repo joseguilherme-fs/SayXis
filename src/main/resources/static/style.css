@@ -6,3 +6,40 @@
 .warn-input p {
     color: #b40000;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#header-fragment {
+    width: 100vw;
+    padding: 15px 50px;
+    background-color: #ffffff;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#logo {
+    font-weight: 600;
+    font-size: 23px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.nav-item:hover {
+    color: #1d4ed8;
+}

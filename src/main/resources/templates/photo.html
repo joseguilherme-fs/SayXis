@@ -2,12 +2,15 @@
 <html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Photo</title>
   <link th:href="@{/output.css}" rel="stylesheet" />
   <link th:href="@{/photo.css}" rel="stylesheet" />
+  <link th:href="@{/style.css}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 <body>
+<div th:insert="fragments/header :: header"></div>
 <div id="post">
   <div id="photo">
     <img th:src="${linkPhoto}" alt="">

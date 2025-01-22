@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="https://thymeleaf.org">
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Área de Administrador</title>
     <link th:href="@{/admin.css}" rel="stylesheet" />
+    <link th:href="@{/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 <body>
+<div th:insert="fragments/header :: header"></div>
 <table class="table">
     <thead>
         <tr>
