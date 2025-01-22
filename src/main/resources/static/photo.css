@@ -21,24 +21,44 @@
     background-color: #efefef;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 40%;
     height: 100%;
     padding: 10px;
     border-radius: 10px;
 }
 
-#photo-comments {
-    overflow: auto;
-    height: 70%;
+#comments-header {
+    height: 30%;
 }
 
 #caption {
-    height: 15%;
+    height: 70%;
+    overflow: auto;
+}
+
+#tags {
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+}
+
+.tag {
+    margin: 0 5px;
+    padding: 2px 5px;
+    text-transform: lowercase;
+}
+
+#photo-comments {
+    height: 55%;
+    overflow: auto;
 }
 
 .comment {
-    padding: 10px;
+    padding: 0;
 }
 
 #add-comment {

@@ -12,29 +12,43 @@
   <div id="photo">
     <img th:src="${linkPhoto}" alt="">
     <div id="like">
-      <button th:if="${isLiked == false}"><i class="fa-regular fa-heart"></i></button>
-      <button th:if="${isLiked == true}"><i class="fa-solid fa-heart"></i></button>
+      <form th:if="${isLiked == false}" th:action="@{/photo/{photo_id}/like(photo_id=${photo_id})}" method="POST">
+        <button type="submit"><i class="fa-regular fa-heart"></i></button>
+      </form>
+      <form th:if="${isLiked == true}" th:action="@{/photo/{photo_id}/unlike(photo_id=${photo_id})}" method="POST">
+        <button type="submit"><i class="fa-solid fa-heart"></i></button>
+      </form>
       <p th:text="${numberOfLikes}"></p>
     </div>
+
   </div>
 
   <div id="comments">
-    <div id="caption">
-      <p th:if="${caption != null}" th:text="${caption}"></p>
+    <div id="comments-header">
+      <div id="caption">
+<!--        <p th:if="${caption}" th:text="${caption}"></p>-->
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        </p>
+      </div>
+      <ul id="tags">
+        <li th:each="tag : ${tags}" th:text="'#'+${tag}" class="tag"></li>
+      </ul>
     </div>
-    <ul th:each="comment : ${comments}" id="photo-comments" role="list" class="divide-y divide-gray-100 overflow-y-auto">
+    <ul id="photo-comments" role="list" class="divide-y divide-gray-100 overflow-y-auto">
       <li class="flex justify-between gap-x-6 py-5 comment">
         <div class="flex min-w-0 gap-x-4">
           <div class="min-w-0 flex-auto">
-            <p th:text="${comment.photographer.name}" class="text-sm/6 font-semibold text-gray-900"></p>
-            <p th:text="${comment.commentText}" class="mt-1 truncate text-xs/5 text-gray-500"></p>
+            <p class="text-sm/6 font-semibold text-gray-900">Lucas Emiliano</p>
+            <p class="mt-1 truncate text-xs/5 text-gray-500">Que moto linda</p>
           </div>
         </div>
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p th:text="${comment.createdAt}" class="text-sm/6 text-gray-900"></p>
+          <p class="text-sm/6 text-gray-900">21/01/2025</p>
         </div>
       </li>
     </ul>
+
     <div id="add-comment">
       teste
     </div>
