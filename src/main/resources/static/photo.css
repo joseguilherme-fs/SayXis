@@ -1,75 +1,194 @@
-#post {
-    width: 100%;
-    height: 100vh;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    padding: 2vw;
+    min-height: 100vh;
+}
+
+#post {
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 700px;
+    padding: 30px;
+    box-sizing: border-box;
 }
 
 #photo {
-    width: 40%;
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #photo img {
-    height: 100%;
-}
-
-#comments {
-    background-color: #efefef;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 40%;
-    height: 100%;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-#comments-header {
-    height: 30%;
-}
-
-#caption {
-    height: 70%;
-    overflow: auto;
-}
-
-#tags {
-    height: 30%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: auto;
-}
-
-.tag {
-    margin: 0 5px;
-    padding: 2px 5px;
-    text-transform: lowercase;
-}
-
-#photo-comments {
-    height: 55%;
-    overflow: auto;
-}
-
-.comment {
-    padding: 0;
-}
-
-#add-comment {
-    height: 15%;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
 }
 
 #like {
-    width: 100%;
+    position: absolute;
+    top: 15px;
+    left: 15px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 25px;
+    padding: 8px;
+}
+
+#like button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: #ff4d4d;
+    transition: color 0.3s ease;
+}
+
+#like button:hover {
+    color: #ff1a1a;
+}
+
+#like p {
+    margin-left: 12px;
+    font-size: 18px;
+    color: #333;
+}
+
+#comments {
+    margin-top: 30px;
+}
+
+#comments-header {
+    margin-bottom: 15px;
+}
+
+#caption p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#tags {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #e4e6e9;
+    border-radius: 20px;
+    padding: 6px 12px;
+    margin-right: 12px;
+    font-size: 15px;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tag:hover {
+    background-color: #d1d3d6;
+    color: #000;
+}
+
+#photo-comments {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-top: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+.comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.comment .flex {
+    flex: 1;
+}
+
+.comment .text-sm {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.comment .text-xs {
+    font-size: 13px;
+    color: #777;
+}
+
+.comment .text-sm {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#add-comment {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#add-comment p {
+    color: red;
+    font-size: 13px;
+}
+
+#add-comment input {
+    padding: 12px;
+    margin-top: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+#add-comment button {
+    padding: 12px;
+    margin-top: 12px;
+    background-color: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-comment button:hover {
+    background-color: #4973ec;
+}
+
+@media (max-width: 768px) {
+    #post {
+        padding: 15px;
+    }
+
+    #photo {
+        margin-bottom: 15px;
+    }
+
+    #like {
+        top: 10px;
+        left: 10px;
+    }
+
+    #add-comment input, #add-comment button {
+        font-size: 16px;
+    }
 }

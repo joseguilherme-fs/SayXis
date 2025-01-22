@@ -26,32 +26,32 @@
   <div id="comments">
     <div id="comments-header">
       <div id="caption">
-<!--        <p th:if="${caption}" th:text="${caption}"></p>-->
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        </p>
+        <p th:if="${caption}" th:text="${caption}"></p>
       </div>
       <ul id="tags">
         <li th:each="tag : ${tags}" th:text="'#'+${tag}" class="tag"></li>
       </ul>
     </div>
     <ul id="photo-comments" role="list" class="divide-y divide-gray-100 overflow-y-auto">
-      <li class="flex justify-between gap-x-6 py-5 comment">
+      <li th:each="comment : ${comments}" class="flex justify-between gap-x-6 py-5 comment">
         <div class="flex min-w-0 gap-x-4">
           <div class="min-w-0 flex-auto">
-            <p class="text-sm/6 font-semibold text-gray-900">Lucas Emiliano</p>
-            <p class="mt-1 truncate text-xs/5 text-gray-500">Que moto linda</p>
+            <p th:text="${comment.photographer.name}" class="text-sm/6 font-semibold text-gray-900"></p>
+            <p th:text="${comment.commentText}" class="mt-1 truncate text-xs/5 text-gray-500"></p>
           </div>
         </div>
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm/6 text-gray-900">21/01/2025</p>
+          <p th:text="${comment.createdAt}" class="text-sm/6 text-gray-900"></p>
         </div>
       </li>
     </ul>
 
-    <div id="add-comment">
-      teste
-    </div>
+
+    <form id="add-comment" th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">
+      <p th:if="${tooLong}">Comentário muito longo. Insira no máximo 512 caracteres</p>
+      <input th:value="${sentComment}" type="text" name="comment" placeholder="Adicione um comentário">
+      <button type="submit">Enviar</button>
+    </form>
   </div>
 
 </div>
