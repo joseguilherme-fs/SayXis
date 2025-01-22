@@ -62,7 +62,7 @@ public class PhotoController {
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes());
 
             //adiciona hashtags, se houver
-            if (hashtags != null && !hashtags.isEmpty()) {
+            if (!hashtags.isEmpty()) {
                 String[] tagsArray = hashtags.split(",");
                 String TagName;
                 for (String tag : tagsArray) {
@@ -80,7 +80,7 @@ public class PhotoController {
                 }
             }
             //adiciona legenda como comentário, se houver
-            if (caption!= null && !caption.isEmpty()) {
+            if (!caption.isEmpty()) {
                 commentService.addComment(photographer, savedPhoto, caption);
             }
             model.addAttribute("successMessage", "Envio da foto realizado com sucesso.");

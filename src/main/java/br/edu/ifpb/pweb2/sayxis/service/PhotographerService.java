@@ -11,22 +11,51 @@ import java.util.List;
 public class PhotographerService {
 
     @Autowired
-    private PhotographerRepository photographerRepository;
+    private PhotographerRepository repository;
 
     public Photographer findById(Integer id) {
-        return photographerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fotográfo não encontrado."));
+        return repository.findById(id).orElse(null);
     }
 
     public void save(Photographer photographer) {
-        photographerRepository.save(photographer);
+        repository.save(photographer);
     }
 
     public Photographer findByEmail(String email){
-        return photographerRepository.findByEmail(email);
+        return repository.findByEmail(email);
     }
 
     public List<Photographer> findSuspendeds() {
-        return photographerRepository.findSuspendeds();
+        return repository.findSuspendeds();
+    }
+
+    public Long getFollowersCount(Integer photographerId) {
+        return repository.countFollowersByPhotographerId(photographerId);
+    }
+
+    public Long getFollowingCount(Integer photographerId) {
+        return repository.countFollowingByPhotographerId(photographerId);
+    }
+
+    public void followPhotographer(Integer followedId, Integer followerId) {
+        if (followerId.equals(followedId)) {
+            throw new IllegalArgumentException("Você não pode seguir a si mesmo.");
+        }
+        Photographer followed = findById(followedId);
+        Photographer follower = findById(followerId);
+        if(follower.getFollowing().contains(followed)) {
+            throw new IllegalArgumentException("Este fotografo já é seguido");
+        }
+        follower.getFollowing().add(followed);
+        repository.save(followed);
+    }
+
+    public void followAllowed(Photographer photographer){
+        if(photographer.isFollowAllowed()) {
+            photographer.setFollowAllowed(false);
+        } else {
+            photographer.setFollowAllowed(true);
+        }
+        repository.save(photographer);
     }
 }

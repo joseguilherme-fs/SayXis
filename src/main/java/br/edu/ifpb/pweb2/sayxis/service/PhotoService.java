@@ -31,6 +31,10 @@ public class PhotoService {
         return new PhotoDTO(save(photo));
     }
 
+    public Long countPhotosByPhotographerId (Integer photographerId) {
+        return photoRepository.countPhotosByPhotographerId(photographerId);
+    }
+
     public Photo save(Photo photo) {
         return photoRepository.save(photo);
     }
