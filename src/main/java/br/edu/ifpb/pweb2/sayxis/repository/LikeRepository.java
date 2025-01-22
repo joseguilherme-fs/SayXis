@@ -12,9 +12,11 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, LikeId> {
 
+    //conta a quantidade de likes em uma foto
     @Query("select count(l) from Like l where l.photo = :photo")
     int countLikes(@Param("photo") Photo photo);
 
+    //verifica se a foto já está curtida pelo fotógrafo
     @Query("select count(l) > 0 from Like l where l.photographer = :photographer and l.photo = :photo")
     boolean isLiked(@Param("photographer") Photographer photographer, @Param("photo") Photo photo);
 }

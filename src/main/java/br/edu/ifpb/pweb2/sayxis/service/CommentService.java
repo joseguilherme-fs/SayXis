@@ -45,9 +45,8 @@ public class CommentService {
         Photo photo = photoService.findById(photoId);
         if (photo != null) {
             return commentRepository.getComments(photo);
-        } else {
-            return null;
         }
+        return null;
     }
 
     public Comment getCaption(Integer photoId) {
