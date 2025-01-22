@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuário Suspenso</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff5f6d, #ffc371);
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ff5f6d;
+            background: #fff;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: #ff5f6d;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 95, 109, 0.4);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Conta Suspensa</h1>
+    <p>Sua conta foi suspensa devido à violação dos termos de uso. Caso ache que isso é um engano, entre em contato com o suporte.</p>
+    <a href="mailto:suporte@exemplo.com" class="button">Entrar em Contato</a>
+</div>
+</body>
+</html>

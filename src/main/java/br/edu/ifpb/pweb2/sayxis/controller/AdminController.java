@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -58,5 +59,15 @@ public class AdminController {
             model.addAttribute("profilePhoto", profilePhoto);
         }
         return "/photographer-page";
+    }
+
+    @PostMapping("/admin/{photographer_id}/suspend")
+    public String suspendPhotographer(RedirectAttributes ra, @PathVariable Integer photographer_id) {
+        Photographer photographer = photographerService.findById(photographer_id).get();
+        photographer.set_suspended(true);
+        photographerService.save(photographer);
+        ra.addFlashAttribute("photographer", photographer);
+
+        return "redirect:/admin";
     }
 }

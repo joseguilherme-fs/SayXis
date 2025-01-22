@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="actions">
-        <form th:action="@{/admin/suspend}" method="post">
+        <form th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer_id})}" method="post">
             <input type="hidden" th:value="${photographer.id}" name="photographerId">
             <button type="submit" class="btn" th:classappend="${photographer.is_suspended ? ' suspended' : ''}"
                     th:text="${photographer.is_suspended ? 'Reativar Fotógrafo' : 'Suspender Fotógrafo'}"></button>

@@ -38,7 +38,7 @@
                     <a th:href="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}">
                         <button class="btn-edit">Editar dados</button>
                     </a>
-                    <form th:action="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}" method="POST">
+                    <form th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer.id})}" method="POST">
                         <button type="submit" class="btn-suspend">Suspender</button>
                     </form>
                 </td>
