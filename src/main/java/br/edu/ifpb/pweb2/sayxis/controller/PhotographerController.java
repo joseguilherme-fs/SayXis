@@ -60,7 +60,7 @@ public class PhotographerController {
 
             if(!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
-                photoService.addPhoto(newPhotographer, file.getBytes());
+                photoService.addPhoto(newPhotographer, file.getBytes(), true);
             }
 
             //redirecionamento e mensagem de sucesso

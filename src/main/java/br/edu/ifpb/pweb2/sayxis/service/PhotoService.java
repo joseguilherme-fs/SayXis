@@ -22,10 +22,14 @@ public class PhotoService {
                 .orElseThrow(() -> new RuntimeException("Foto não encontrada."));
     }
 
+    public Photo findProfilePhoto(Photographer photographer) {
+        return photoRepository.findProfilePhoto(photographer);
+    }
 
-    public PhotoDTO addPhoto(Photographer photographer, byte[] imageData) {
+    public PhotoDTO addPhoto(Photographer photographer, byte[] imageData, boolean is_profilePhoto) {
         Photo photo = Photo.builder()
                 .photographer(photographer)
+                .is_profilePhoto(is_profilePhoto)
                 .imageData(imageData)
                 .build();
         return new PhotoDTO(save(photo));

@@ -24,7 +24,7 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "photographer_id")
     private Photographer photographer;
-
+    private boolean is_profilePhoto = false;
     private String imageUrl = null;
     private byte[] imageData;
 }

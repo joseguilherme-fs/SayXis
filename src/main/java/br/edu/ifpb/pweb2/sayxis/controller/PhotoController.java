@@ -59,7 +59,7 @@ public class PhotoController {
         try {
             Integer idPhotographer = photographerController.userLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
-            PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes());
+            PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes(), false);
 
             //adiciona hashtags, se houver
             if (!hashtags.isEmpty()) {
