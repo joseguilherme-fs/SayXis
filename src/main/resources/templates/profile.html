@@ -42,32 +42,32 @@
         </li>
     </ul>
 
-    <div class="flex items-center justify-around p-4 border-t mx-8 mt-2">
+    <div class="flex items-center justify-center gap-4 p-4 border-t mx-8 mt-2">
 
         <form th:action="@{/photographer/{photographerId}/allow-followers(photographerId=${photographer.id})}" method="post">
             <button type="submit" th:if="${isOwnProfile}">
-                <i class="fa-solid  text-xl"
+                <i class="fa-solid text-xl"
                    th:classappend="${followAllowed ? 'fa-users text-blue-700 hover:text-blue-600':'fa-users-slash text-red-500 hover:text-red-600 '}"></i>
             </button>
         </form>
 
         <button th:if="${!isOwnProfile}"
+                id="notification"
                 class="focus:outline-none">
             <i class="fa-solid fa-bell text-blue-700 hover:text-blue-600 text-xl"></i>
         </button>
 
-        <button th:disabled="${isOwnProfile}"
-                class="w-1/2 block mx-auto rounded-full bg-blue-900 hover:bg-blue-600 hover:shadow-lg font-semibold text-white px-6 py-2">
-            Seguir
-        </button>
+        <form th:action="@{'/photographer/' + ${photographer.id} + '/follow'}" method="POST">
+            <button type="submit" th:if="${!isOwnProfile}"
+                    class="block mx-auto rounded-full bg-blue-900 hover:bg-blue-600 hover:shadow-lg font-semibold text-white px-6 py-2">
+                <span th:text="${isFollowing} ? 'Deixar de seguir' : 'Seguir'"></span>
+            </button>
+        </form>
 
-        <!-- Botão de mensagem -->
-        <button th:if="${!isOwnProfile}"
-                class="focus:outline-none">
+        <button th:if="${!isOwnProfile}" class="focus:outline-none">
             <i class="fa-solid fa-envelope text-blue-700 hover:text-blue-600 text-xl"></i>
         </button>
     </div>
-
 </div>
 </body>
 </html>

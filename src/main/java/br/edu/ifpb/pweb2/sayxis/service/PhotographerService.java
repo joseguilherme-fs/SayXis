@@ -1,6 +1,5 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
-import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,8 @@ public class PhotographerService {
     }
 
     public Photographer save(Photographer photographer) {
-        return repository.save(photographer);
+        repository.save(photographer);
+        return photographer;
     }
 
     public Photographer findByEmail(String email){
@@ -38,19 +38,6 @@ public class PhotographerService {
         return repository.countFollowingByPhotographerId(photographerId);
     }
 
-    public void followPhotographer(Integer followedId, Integer followerId) {
-        if (followerId.equals(followedId)) {
-            throw new IllegalArgumentException("Você não pode seguir a si mesmo.");
-        }
-        Photographer followed = findById(followedId);
-        Photographer follower = findById(followerId);
-        if(follower.getFollowing().contains(followed)) {
-            throw new IllegalArgumentException("Este fotografo já é seguido");
-        }
-        follower.getFollowing().add(followed);
-        repository.save(followed);
-    }
-
     public void followAllowed(Photographer photographer){
         if(photographer.isFollowAllowed()) {
             photographer.setFollowAllowed(false);
@@ -58,5 +45,24 @@ public class PhotographerService {
             photographer.setFollowAllowed(true);
         }
         repository.save(photographer);
+    }
+
+    public boolean isFollowing(Photographer followed, Photographer follower) {
+        return follower.getFollowing().contains(followed);
+    }
+    public void follow(Integer followedId, Integer followerId) {
+        if (followerId.equals(followedId)) {
+            throw new IllegalArgumentException("Você não pode seguir a si mesmo.");
+        }
+        Photographer followed = findById(followedId);
+        Photographer follower = findById(followerId);
+
+        if(follower.getFollowing().contains(followed) & followed.isFollowAllowed()) {
+            follower.getFollowing().remove(followed);
+        } else {
+            follower.getFollowing().add(followed);
+        }
+
+        repository.save(follower);
     }
 }

@@ -57,6 +57,7 @@ public class PhotographerController {
                 photographer.setCountry(null);
             }
             Photographer newPhotographer = photographerService.save(photographer);
+
             if(!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
                 photoService.addPhoto(newPhotographer, file.getBytes());
@@ -118,6 +119,7 @@ public class PhotographerController {
         if (userLogged == null) {
             return "redirect:/photographer/login";
         }
+        Photographer photographerLogged = photographerService.findById(userLogged);
         Photographer photographerDB = photographerService.findById(id);
         if (photographerDB == null) {
             return "redirect:/error";
@@ -136,6 +138,7 @@ public class PhotographerController {
         model.addAttribute("qntPosts", photoService.countPhotosByPhotographerId(id));
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("followAllowed", photographerDB.isFollowAllowed());
+        model.addAttribute("isFollowing", photographerService.isFollowing(photographerDB, photographerLogged));
 
         return "profile";
     }
@@ -159,6 +162,23 @@ public class PhotographerController {
         return "redirect:/photographer/" + photographerId + "/profile";
     }
 
+    // seguir um fotógrafo
+    @PostMapping("/{photographerId}/follow")
+    public String follow(@PathVariable("photographerId") Integer photographerId,
+                                 HttpSession session) {
+        Integer userLogged = userLogged(session);
+        if (userLogged == null) {
+            return "redirect:/photographer/login";
+        }
+        Photographer photographerLogado = photographerService.findById(userLogged);
+        Photographer photographerDB = photographerService.findById(photographerId);
+
+        if (photographerDB == null) {
+            return "redirect:/photographer/cadastro";
+        }
+        photographerService.follow(photographerId, userLogged);
+        return "redirect:/photographer/" + photographerId + "/profile";
+    }
 
     //retira o id do usuário da sessão HTTP
     @GetMapping("/logout")

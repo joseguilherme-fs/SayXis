@@ -22,23 +22,28 @@ public class Photographer {
     @Column(unique = true)
     private String email;
     private String password;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean is_adm = false;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean is_suspended = false;
+
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean followAllowed = true;
+
     private byte[] profile_photo = null;
     private String city = null;
     private String country = null;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "followers", // Nome da tabela de junção
-            joinColumns = @JoinColumn(name = "photographer_id"), // Chave estrangeira para este fotógrafo
-            inverseJoinColumns = @JoinColumn(name = "follower_id") // Chave estrangeira para o seguidor
+            name = "followers",
+            joinColumns = @JoinColumn(name = "photographer_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
     )
     private List<Photographer> following;
 
-    // Lista de fotógrafos que seguem este fotógrafo
     @ManyToMany(mappedBy = "following")
     private List<Photographer> followers;
 }
