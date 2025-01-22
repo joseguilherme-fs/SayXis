@@ -97,14 +97,6 @@ public class PhotoController {
     }
 
 
-    @GetMapping("/all")
-    public String getAllPhotos(Model model) {
-        List<Photo> photos = photoService.findAll();
-        Collections.shuffle(photos); // Embaralha as fotos
-        model.addAttribute("photos", photos);
-        return "index";
-    }
-
     //retorna a página da foto
     @GetMapping("/{photo_id}")
     public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id) {

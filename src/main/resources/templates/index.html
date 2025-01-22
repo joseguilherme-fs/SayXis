@@ -13,9 +13,9 @@
         <p th:text="${success}"></p>
     </div>
 <div class="photo-grid">
-    <div th:each="photo : ${photos}" class="photo-card">
+    <div class="photo-card" th:each="photo : ${photos}">
         <a th:href="@{/photo/{photo_id}(photo_id=${photo.id})}">
-            <img th:src="@{${photo.imageUrl}}" alt="Foto de ${photo.photographer.name}">
+            <img th:src="@{${photo.imageUrl}}" alt="Foto de ${photo.photographer.name}" />
         </a>
     </div>
 </div>

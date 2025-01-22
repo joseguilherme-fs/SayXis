@@ -48,19 +48,28 @@ body {
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    padding: 20px;
+    gap: 16px; 
+    padding: 16px;
 }
+
+
 .photo-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .photo-card img {
     width: 100%;
-    height: auto;
+    height: 200px;
     object-fit: cover;
+    display: block;
+}
+
+
+.photo-card:hover {
+    transform: scale(1.05); /* Aumenta ligeiramente o cartão */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
 }
