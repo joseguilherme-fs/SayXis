@@ -57,12 +57,26 @@ public class PhotographerService {
         Photographer followed = findById(followedId);
         Photographer follower = findById(followerId);
 
-        if(follower.getFollowing().contains(followed) & followed.isFollowAllowed()) {
-            follower.getFollowing().remove(followed);
-        } else {
-            follower.getFollowing().add(followed);
+        if (!followed.isFollowAllowed()) {
+            throw new IllegalStateException("Este fotógrafo não permite ser seguido no momento.");
         }
 
-        repository.save(follower);
+        if (!follower.getFollowing().contains(followed)) {
+            follower.getFollowing().add(followed);
+            repository.save(follower);
+        }
+    }
+
+    public void unfollow(Integer followedId, Integer followerId) {
+        if (followerId.equals(followedId)) {
+            throw new IllegalArgumentException("Você não pode deixar de seguir a si mesmo.");
+        }
+        Photographer followed = findById(followedId);
+        Photographer follower = findById(followerId);
+
+        if (follower.getFollowing().contains(followed)) {
+            follower.getFollowing().remove(followed);
+            repository.save(follower);
+        }
     }
 }

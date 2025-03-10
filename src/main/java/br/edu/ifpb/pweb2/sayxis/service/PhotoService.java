@@ -42,13 +42,10 @@ public class PhotoService {
     }
 
     public List<Photo> findAll() {
-        return photoRepository.findAll();
+        return photoRepository.findAllFeed();
     }
 
     public Photo save(Photo photo) {
         return photoRepository.save(photo);
     }
-
-
-
 }

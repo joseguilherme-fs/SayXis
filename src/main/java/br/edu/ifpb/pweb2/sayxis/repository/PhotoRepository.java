@@ -13,8 +13,8 @@ import java.util.Optional;
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
-
-    List<Photo> findAll();
+    @Query("select p from Photo p where p.is_profilePhoto = false")
+    List<Photo> findAllFeed();
 
     Optional<Photo> findById(Integer id);
 

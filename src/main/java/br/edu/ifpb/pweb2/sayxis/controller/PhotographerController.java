@@ -110,7 +110,7 @@ public class PhotographerController {
 
         session.setAttribute("user_id", photographer.getId());
         session.setAttribute("is_adm", photographer.is_adm());
-        return "/index";
+        return "redirect:/";
     }
 
     // retorna o perfil do usuário
@@ -125,6 +125,7 @@ public class PhotographerController {
             return "redirect:/photographer/login";
         }
         Photographer photographerLogged = photographerService.findById(userLogged);
+
         Photographer photographerDB = photographerService.findById(id);
         if (photographerDB == null) {
             return "redirect:/error";
@@ -159,8 +160,9 @@ public class PhotographerController {
         }
 
         Photographer photographerDB = photographerService.findById(photographerId);
+
         if (photographerDB == null) {
-            return "redirect:/photographer/cadastro";
+            return "redirect:/photographer/register";
         }
 
         if (userLogged.equals(photographerId)) {
@@ -172,18 +174,27 @@ public class PhotographerController {
     // seguir um fotógrafo
     @PostMapping("/{photographerId}/follow")
     public String follow(@PathVariable("photographerId") Integer photographerId,
-                                 HttpSession session) {
+                         HttpSession session) {
         Integer userLogged = userLogged(session);
         if (userLogged == null) {
             return "redirect:/photographer/login";
         }
-        Photographer photographerLogado = photographerService.findById(userLogged);
-        Photographer photographerDB = photographerService.findById(photographerId);
-
-        if (photographerDB == null) {
-            return "redirect:/photographer/cadastro";
+        try {
+            photographerService.follow(photographerId, userLogged);
+        } catch (IllegalStateException e) {
+            // Trate o caso em que followAllowed é falso
         }
-        photographerService.follow(photographerId, userLogged);
+        return "redirect:/photographer/" + photographerId + "/profile";
+    }
+
+    @PostMapping("/{photographerId}/unfollow")
+    public String unfollow(@PathVariable("photographerId") Integer photographerId,
+                           HttpSession session) {
+        Integer userLogged = userLogged(session);
+        if (userLogged == null) {
+            return "redirect:/photographer/login";
+        }
+        photographerService.unfollow(photographerId, userLogged);
         return "redirect:/photographer/" + photographerId + "/profile";
     }
 
@@ -192,6 +203,11 @@ public class PhotographerController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/photographer/login";
+    }
+
+    @GetMapping("/suspended")
+    public String getSuspendedPage() {
+        return "/suspended";
     }
 
     //retorna o id do usuário logado ou null caso "user_id" esteja vazio

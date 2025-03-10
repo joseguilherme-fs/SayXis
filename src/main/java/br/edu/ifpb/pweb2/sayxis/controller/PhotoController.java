@@ -61,6 +61,7 @@ public class PhotoController {
         try {
             Integer idPhotographer = photographerController.userLogged(session);
             Photographer photographer = photographerService.findById(idPhotographer);
+
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes(), false);
             Photo photo = photoService.findById(savedPhoto.getId());
             photo.setImageUrl("http://localhost:8080/photo/" + photo.getId() + "/image");
@@ -130,6 +131,9 @@ public class PhotoController {
     @PostMapping("/{photo_id}/like")
     public String addLike(HttpSession session, @PathVariable Integer photo_id) {
         Integer photographer_id = (Integer) session.getAttribute("user_id");
+
+        Photographer photographer = photographerService.findById(photographer_id);
+
         if (photographer_id != null) {
             likeService.addLike(photographer_id, photo_id);
             return "redirect:/photo/{photo_id}";
@@ -140,6 +144,8 @@ public class PhotoController {
     @PostMapping("/{photo_id}/unlike")
     public String removeLike(HttpSession session, @PathVariable Integer photo_id) {
         Integer photographer_id = (Integer) session.getAttribute("user_id");
+        Photographer photographer = photographerService.findById(photographer_id);
+
         if (photographer_id != null) {
             likeService.removeLike(photographer_id, photo_id);
             return "redirect:/photo/{photo_id}";
