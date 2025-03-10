@@ -13,9 +13,9 @@
 
     <div class="content">
         <div class="profile-photo">
-            <i class="fa-solid fa-user" th:if="${photographer.profile_photo == null}"></i>
-            <img th:src="@{'data:image/jpeg;base64,' + ${#strings.bytesToString(photographer.profile_photo)}}"
-                 th:if="${photographer.profile_photo != null}"
+            <i class="fa-solid fa-user" th:if="${profilePhoto == null}"></i>
+            <img th:src="@{profilePhoto.imageUrl}"
+                 th:if="${profilePhoto != null}"
                  alt="Foto do perfil">
         </div>
         <div class="info">

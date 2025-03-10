@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
 .warn-input {
     margin-bottom: 5px;
     height: 20px;
@@ -30,7 +32,8 @@ body {
 
 #logo {
     font-weight: 600;
-    font-size: 23px;
+    font-size: 30px;
+    color: black;
 }
 
 .nav-item {

@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Header</title>
+
 </head>
 <body>
 
   <header id="header-fragment" th:fragment="header">
-    <a th:href="@{/}" class="nav-item"><i class="fa-solid fa-house"></i> Home</a>
-    <a id="logo" th:href="@{/}" title="Home"><h1>SAYXIS</h1></a>
+    <a  id="logo" th:href="@{/}" title="Home">
+      <h1 style="font-family: 'Sour Gummy', serif;">SA<span style="color: #1D4ED8FF;">Ÿ</span>XIS</h1>
+    </a>
     <div>
       <a th:href="@{/photo/upload}" th:if="${session.user_id}" class="nav-item"><i class="fa-solid fa-plus"></i> Nova foto</a>
       <a th:href="@{/admin}" th:if="${session.is_adm}" class="nav-item"><i class="fa-solid fa-user-shield"></i> Área de Administrador</a>
+      <a th:href="@{/photographer/{photographer_id}/profile(photographer_id=${session.user_id})}" class="nav-item" th:if="${session.user_id}"><i class="fa-solid fa-user"></i> Perfil</a>
       <a class="nav-item" th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
       <a class="nav-item" th:if="!${session.user_id}" th:href="@{/photographer/login}" th:object="${session}"><i class="fa-solid fa-right-to-bracket"></i> Entrar</a>
     </div>
