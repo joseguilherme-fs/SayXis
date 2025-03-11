@@ -1,7 +1,8 @@
 package br.edu.ifpb.pweb2.sayxis.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,9 @@ public class Photographer {
     private Integer id;
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
+    @NotBlank(message = "O username é obrigatório")
     @Column(unique = true)
+    private String username; // Atributo adicionado para o nome de usuário
     @NotBlank(message = "O email é obrigatório")
     @Email(message = "Informe um Email válido")
     private String email;
