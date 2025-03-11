@@ -30,6 +30,10 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
 
     Photographer findByEmail(String email);
 
+    Optional<Photographer> findByUsername(String username);
+
+    boolean existsByUsername(String username);
+
     @Query("select p from Photographer p where p.is_suspended = true")
     List<Photographer> findSuspendeds();
 
