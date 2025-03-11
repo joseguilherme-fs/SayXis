@@ -7,6 +7,7 @@ import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.service.PhotoService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,30 +38,22 @@ public class PhotographerController {
     //cadastra um fotógrafo
     @PostMapping("/register")
     public ModelAndView registerPhotographer(@RequestParam("profilePhoto") MultipartFile file,
-                                             Photographer photographer,
+                                             @Valid Photographer photographer,
+                                             BindingResult validation,
                                              ModelAndView model,
                                              HttpSession session,
                                              RedirectAttributes redAttrs) {
+        //Verifica se tem erro no formulário
+        if (validation.hasErrors()) {
+            model.setViewName("register-form");
+            return model;
+        }
         try {
-            //verifica manualmente os campos obrigatórios
-            if (
-                    photographer.getName() == null || photographer.getName().isEmpty() ||
-                    photographer.getEmail() == null || photographer.getEmail().isEmpty() ||
-                    photographer.getPassword() == null || photographer.getPassword().isEmpty()) {
-
-                throw new IllegalArgumentException("Erro: nome, email e senha são obrigatórios.");
-            }
-
-            //salva o fotógrafo, adiciona foto de perfil (se houver) e trata os campos não obrigatórios
-            if (photographer.getCity().isEmpty()) {
-                photographer.setCity(null);
-            }
-            if (photographer.getCountry().isEmpty()) {
-                photographer.setCountry(null);
-            }
+            // Salva o fotógrafo no banco de dados
             Photographer newPhotographer = photographerService.save(photographer);
 
-            if(!file.isEmpty()) {
+            // Processa o upload da foto de perfil (se houver)
+            if (!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
                 PhotoDTO savedPhoto = photoService.addPhoto(newPhotographer, file.getBytes(), true);
                 Photo photo = photoService.findById(savedPhoto.getId());
@@ -68,7 +61,7 @@ public class PhotographerController {
                 photoService.save(photo);
             }
 
-            //redirecionamento e mensagem de sucesso
+            // Redirecionamento e mensagem de sucesso
             session.setAttribute("user_id", newPhotographer.getId());
             redAttrs.addFlashAttribute("success", "Você foi cadastrado!");
             redAttrs.addFlashAttribute("session", session);
@@ -81,6 +74,7 @@ public class PhotographerController {
             model.setViewName("register-form");
             model.addObject("mensagem", "Erro ao cadastrar fotógrafo: " + e.getMessage());
         }
+
         return model;
     }
 
@@ -94,17 +88,24 @@ public class PhotographerController {
 
     //salva o id do usuário que está fazendo o login na sessão do HTTP
     @PostMapping("/login")
-    public String login(PhotographerDTO photographerData, HttpSession session, RedirectAttributes ra) {
-        Photographer photographer = photographerService.findByEmail(photographerData.getEmail());
-        if (photographer == null) {
-            ra.addFlashAttribute("loginError", "emailNotFound");
-            ra.addFlashAttribute("photographerData", photographerData);
+    public String login(@Valid PhotographerDTO photographerData, BindingResult validation,
+                        HttpSession session, RedirectAttributes ra)  {
+        if (validation.hasErrors()) {
+            ra.addFlashAttribute("loginError", "Preencha todos os campos corretamente.");
             return "redirect:/photographer/login";
         }
 
-        if(!photographer.getPassword().equals(photographerData.getPassword())) {
+        Photographer photographer = photographerService.findByEmail(photographerData.getEmail());
+
+        // Verifica se o fotógrafo foi encontrado
+        if (photographer == null) {
+            ra.addFlashAttribute("loginError", "emailNotFound");
+            return "redirect:/photographer/login";
+        }
+
+        // Verifica se a senha esta certa
+        if (!photographer.getPassword().equals(photographerData.getPassword())) {
             ra.addFlashAttribute("loginError", "wrongPassword");
-            ra.addFlashAttribute("photographerData", photographerData);
             return "redirect:/photographer/login";
         }
 
@@ -112,6 +113,7 @@ public class PhotographerController {
         session.setAttribute("is_adm", photographer.is_adm());
         return "redirect:/";
     }
+
 
     // retorna o perfil do usuário
 
