@@ -9,11 +9,13 @@ import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,6 +47,54 @@ public class PhotographerController {
                                              RedirectAttributes redAttrs) {
         //Verifica se tem erro no formulário
         if (validation.hasErrors()) {
+            model.setViewName("register-form");
+            return model;
+        }
+        // Verifica se os campos obrigatórios estão preenchidos
+        if (photographer.getName() == null || photographer.getName().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: O nome é obrigatório!");
+            model.setViewName("register-form");
+            return model;
+        }
+        if (photographer.getUsername() == null || photographer.getUsername().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: O Username é Obrigatório");
+            return model;
+        }
+
+        if (photographer.getEmail() == null || photographer.getEmail().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: O email é obrigatório!");
+            model.setViewName("register-form");
+            return model;
+        }
+
+        if (photographer.getPassword() == null || photographer.getPassword().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: A senha é obrigatória!");
+            model.setViewName("register-form");
+            return model;
+        }
+
+        if (photographer.getCity() == null || photographer.getCity().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: A cidade é obrigatória!");
+            model.setViewName("register-form");
+            return model;
+        }
+
+        if (photographer.getCountry() == null || photographer.getCountry().trim().isEmpty()) {
+            model.addObject("mensagem", "Erro: O país é obrigatório!");
+            model.setViewName("register-form");
+            return model;
+        }
+
+        // Verifica se já existe um fotógrafo com o mesmo username
+        if (photographerService.existsByUsername(photographer.getUsername())) {
+            model.addObject("mensagem", "Erro: Este nome de usuário já está cadastrado!");
+            model.setViewName("register-form");
+            return model;
+        }
+
+        // Verifica se já existe um fotógrafo com o mesmo e-mail
+        if (photographerService.findByEmail(photographer.getEmail()) != null) {
+            model.addObject("mensagem", "Erro: Este e-mail já está cadastrado!");
             model.setViewName("register-form");
             return model;
         }
