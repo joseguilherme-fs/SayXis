@@ -19,7 +19,6 @@ public class HomeController {
     @GetMapping("/")
     public String showHomePage(Model model) {
         List<Photo> photos = photoService.findAll();
-        Collections.shuffle(photos);
         model.addAttribute("photos", photos);
         return "index";
     }

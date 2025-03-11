@@ -13,6 +13,11 @@ public class PhotographerService {
     @Autowired
     private PhotographerRepository repository;
 
+    @Autowired
+    private FollowService followService;
+
+
+
     public Photographer findById(Integer id) {
         return repository.findById(id).orElse(null);
     }
@@ -30,12 +35,12 @@ public class PhotographerService {
         return repository.findSuspendeds();
     }
 
-    public Long getFollowersCount(Integer photographerId) {
-        return repository.countFollowersByPhotographerId(photographerId);
+    public Integer getFollowersCount(Integer photographerId) {
+        return followService.countFollowers(photographerId);
     }
 
-    public Long getFollowingCount(Integer photographerId) {
-        return repository.countFollowingByPhotographerId(photographerId);
+    public Integer getFollowingCount(Integer photographerId) {
+        return followService.countFollowing(photographerId);
     }
 
     public void followAllowed(Photographer photographer){
@@ -48,8 +53,9 @@ public class PhotographerService {
     }
 
     public boolean isFollowing(Photographer followed, Photographer follower) {
-        return follower.getFollowing().contains(followed);
+        return followService.isFollowed(followed.getId(), follower.getId());
     }
+
     public void follow(Integer followedId, Integer followerId) {
         if (followerId.equals(followedId)) {
             throw new IllegalArgumentException("Você não pode seguir a si mesmo.");
@@ -61,10 +67,10 @@ public class PhotographerService {
             throw new IllegalStateException("Este fotógrafo não permite ser seguido no momento.");
         }
 
-        if (!follower.getFollowing().contains(followed)) {
-            follower.getFollowing().add(followed);
-            repository.save(follower);
+        if (isFollowing(followed, follower)) {
+            throw new IllegalArgumentException("Você já está seguindo este usuário.");
         }
+        followService.addFollow(followed, follower);
     }
 
     public void unfollow(Integer followedId, Integer followerId) {
@@ -74,9 +80,8 @@ public class PhotographerService {
         Photographer followed = findById(followedId);
         Photographer follower = findById(followerId);
 
-        if (follower.getFollowing().contains(followed)) {
-            follower.getFollowing().remove(followed);
-            repository.save(follower);
+        if (isFollowing(followed, follower)) {
+            followService.removeFollow(followedId,followerId);
         }
     }
 }
