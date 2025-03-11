@@ -34,15 +34,4 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
     List<Photographer> findSuspendeds();
 
     Optional<Photographer> findById(Integer id);
-
-    // Query para obter a quantidade de seguidores
-    @Query("SELECT COUNT(f) FROM Photographer p JOIN p.followers f WHERE p.id = :id")
-    long countFollowersByPhotographerId(@Param("id") Integer id);
-
-    // Query para obter a quantidade de seguidos
-    @Query("SELECT COUNT(f) FROM Photographer p JOIN p.following f WHERE p.id = :id")
-    long countFollowingByPhotographerId(@Param("id") Integer id);
-
-
-
 }

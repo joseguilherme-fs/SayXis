@@ -36,14 +36,4 @@ public class Photographer {
     private String city = null;
     private String country = null;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "followers",
-            joinColumns = @JoinColumn(name = "photographer_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id")
-    )
-    private List<Photographer> following;
-
-    @ManyToMany(mappedBy = "following")
-    private List<Photographer> followers;
 }
