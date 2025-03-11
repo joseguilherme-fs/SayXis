@@ -27,8 +27,10 @@ public class PhotographerService {
         return photographer;
     }
 
-    public Photographer findByEmail(String email){
-        return repository.findByEmail(email);
+    public Photographer findByEmail(String email){return repository.findByEmail(email);}
+
+    public boolean existsByUsername(String username) {
+        return repository.findByUsername(username).isPresent();
     }
 
     public List<Photographer> findSuspendeds() {
