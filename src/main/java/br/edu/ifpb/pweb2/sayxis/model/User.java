@@ -2,10 +2,7 @@ package br.edu.ifpb.pweb2.sayxis.model;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,12 +16,13 @@ import lombok.ToString;
 public class User {
 
     @Id
-    private String email;
+    private String username;
     private String password;
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "email")
+    @OneToMany(mappedBy = "username")
     @ToString.Exclude
     List<Authority> authorities;
 }
+
 

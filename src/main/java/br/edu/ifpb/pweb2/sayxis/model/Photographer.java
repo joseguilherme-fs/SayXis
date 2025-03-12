@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +15,21 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
 public class Photographer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
-    @NotBlank(message = "O username é obrigatório")
+
+    @OneToOne
+    @JoinColumn(name = "username")
+    private User user;
+
+    @NotBlank(message = "O e-mail é obrigatório")
     @Column(unique = true)
-    private String username; // Atributo adicionado para o nome de usuário
-    @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Informe um Email válido")
     private String email;
-    @NotBlank(message = "A senha é obrigatória")
-    private String password;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean is_adm = false;
@@ -43,7 +44,7 @@ public class Photographer {
 
     @NotBlank(message = "A cidade é obrigatória")
     private String city = null;
+
     @NotBlank(message = "O país é obrigatório")
     private String country = null;
-
 }

@@ -24,8 +24,8 @@ public class Authority {
     private AuthorityId id;
 
     @ManyToOne
-    @JoinColumn(name = "username", referencedColumnName = "email", insertable = false, updatable = false)
-    private User email;
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    private User username;
 
     @Column(name = "authority", insertable = false, updatable = false)
     private String authority;
@@ -35,8 +35,7 @@ public class Authority {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AuthorityId implements Serializable {
-        private String email;
+        private String username;
         private String authority;
     }
 }
-
