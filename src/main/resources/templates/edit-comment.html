@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Comentário</title>
+    <link th:href="@{/output.css}" rel="stylesheet" />
+    <link th:href="@{/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow:
+                    #000000 0px 0px 0px 2px inset,
+                    #FFFFFF 10px -10px 0px -2px,
+                    #000000 10px -10px,
+                    #FFFFFF 20px -20px 0px -2px,
+                    #000000 20px -20px,
+                    #FFFFFF 30px -30px 0px -2px,
+                    #000000 30px -30px,
+                    #FFFFFF 40px -40px 0px -2px,
+                    #000000 40px -40px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            padding: 25px;
+        }
+        .icon{
+            font-size: 100px;
+        }
+        .accept {
+            margin: 10px 0;
+            padding: 5px 0;
+            color: #ffffff;
+            background-color: #1d4ed8;
+            border-radius: 50px;
+        }
+        form {
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        h1{
+            font-size: 18px;
+            font-weight: bold;
+        }
+        textarea {
+            height: 200px;
+            resize: none;
+            border: 1px solid #000000;
+            border-radius: 10px;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <p class="icon"><i class="fa-solid fa-square-pen"></i></p>
+        <h1>Editando Comentário</h1>
+
+        <form th:action="@{/photo/{photo_id}/comment/{comment_id}/update(photo_id=${photo_id}, comment_id=${comment.id})}" method="POST">
+            <textarea name="comment" required>[[${comment.commentText}]]</textarea>
+            <button class="accept" type="submit">Salvar Alterações</button>
+        </form>
+
+        <a th:href="@{/photo/{photo_id}(photo_id=${photo_id})}">Voltar</a>
+    </div>
+
+</body>
+</html>
