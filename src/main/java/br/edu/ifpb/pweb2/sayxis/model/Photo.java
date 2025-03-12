@@ -27,4 +27,10 @@ public class Photo {
     private boolean is_profilePhoto = false;
     private String imageUrl;
     private byte[] imageData;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
