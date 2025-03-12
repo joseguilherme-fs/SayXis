@@ -40,7 +40,17 @@
         <div class="flex min-w-0 gap-x-4">
           <div class="min-w-0 flex-auto">
             <p th:text="${comment.photographer.name}" class="text-sm/6 font-semibold text-gray-900"></p>
-            <p th:text="${comment.commentText}" class="mt-1 text-xs/5 text-gray-500 break-words"></p>
+            <p th:text="${comment.commentText}" class="mt-1 text-sm/5 text-gray-500 break-words"></p>
+
+            <form th:if="${comment.photographer.id == session.user_id}"
+                  th:action="@{/photo/{photo_id}/comment/{comment_id}/delete(photo_id=${photo_id}, comment_id=${comment.id})}"
+                  method="POST"
+                  onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')"
+                  class="text-sm/6 text-red-500">
+
+              <button type="submit"><i class="fa-solid fa-trash-can"></i> Excluir comentário</button>
+            </form>
+
           </div>
         </div>
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
