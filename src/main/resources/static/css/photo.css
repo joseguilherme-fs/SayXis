@@ -166,6 +166,42 @@ body {
     transition: background-color 0.3s ease;
 }
 
+#photographer-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#photographer-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#photographer-info a {
+    text-decoration: none;
+    color: #333;
+}
+
+#photographer-info a:hover {
+    color: #007bff;
+}
+
+#photographer-info .flex-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#photographer-info .text-sm {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5px;
+}
+
+
 #add-comment button:hover {
     background-color: #4973ec;
 }

@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Photo</title>
-  <link th:href="@{/css/output.css}" rel="stylesheet" />
   <link th:href="@{/css/photo.css}" rel="stylesheet" />
   <link th:href="@{/css/style.css}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body>
 <div th:insert="fragments/header :: header"></div>
 <div id="post">
+  <div id="photographer-info" class="flex items-center gap-4 mb-4">
+    <a th:href="@{'/photographer/' + ${photographer.id} + '/profile'}">
+      <div id="photographer-photo" class="w-12 h-12 rounded-full overflow-hidden">
+        <img th:if="${profilePhoto != null}" th:src="${profilePhoto.imageUrl}" alt="Foto do Fotógrafo" class="w-full h-full object-cover" />
+        <img th:if="${profilePhoto == null}"  src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="Foto do Fotógrafo" class="w-full h-full object-cover" />
+      </div>
+    </a>
+
+    <div class="flex flex-col">
+      <!-- Nome do Fotógrafo -->
+      <a th:href="@{'/photographer/' + ${photographer.id} + '/profile'}" class="text-xl font-bold text-gray-900">
+        <span th:text="${photographer.name}"></span>
+      </a>
+
+      <div class="text-sm text-gray-500">
+        <span>@</span><span th:text="${photographer.getUser().getUsername()}"></span>
+      </div>
+    </div>
+  </div>
+
   <div id="photo">
-    <img th:src="${linkPhoto}" alt="">
+    <img th:src="${linkPhoto}" alt="Foto" />
     <div id="like">
       <form th:if="${isLiked == false}" th:action="@{/photo/{photo_id}/like(photo_id=${photo_id})}" method="POST">
         <button type="submit"><i class="fa-regular fa-heart"></i></button>
@@ -23,7 +43,6 @@
       </form>
       <p th:text="${numberOfLikes}"></p>
     </div>
-
   </div>
 
   <div id="comments">
@@ -35,30 +54,31 @@
         <li th:each="tag : ${tags}" th:text="'#'+${tag}" class="tag"></li>
       </ul>
     </div>
+
     <ul id="photo-comments" role="list" class="divide-y divide-gray-400 overflow-y-auto">
       <li th:each="comment : ${comments}" class="flex justify-between gap-x-6 py-5 comment">
         <div class="flex min-w-0 gap-x-4">
           <div class="min-w-0 flex-auto">
-            <p th:text="${comment.photographer.name}" class="text-sm/6 font-semibold text-gray-900"></p>
+            <a th:href="@{'/photographer/' + ${comment.photographer.getId()} + '/profile'}" class="text-gray-500 text-sm/6 ">
+              <span class="font-semibold text-gray-900" th:text="${comment.photographer.name}"></span>
+              <span>(@</span><span th:text="${comment.photographer.getUser().getUsername()}"></span>)
+            </a>
             <p th:text="${comment.commentText}" class="mt-1 text-sm/5 text-gray-500 break-words"></p>
 
             <div class="comment-actions" th:if="${comment.photographer.id == session.user_id}">
-                <form th:action="@{/photo/{photo_id}/comment/{comment_id}/edit(photo_id=${photo_id}, comment_id=${comment.id})}"
-                      method="GET"
-                      class="text-sm/6" style="color: #3b82f6">
-                    <button type="submit"><i class="fa-solid fa-pen"></i> Editar</button>
-                </form>
+              <form th:action="@{/photo/{photo_id}/comment/{comment_id}/edit(photo_id=${photo_id}, comment_id=${comment.id})}"
+                    method="GET"
+                    class="text-sm/6" style="color: #3b82f6">
+                <button type="submit"><i class="fa-solid fa-pen"></i> Editar</button>
+              </form>
 
-                <form th:action="@{/photo/{photo_id}/comment/{comment_id}/delete(photo_id=${photo_id}, comment_id=${comment.id})}"
-                      method="POST"
-                      onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')"
-                      class="text-sm/6 text-red-500">
-
-                    <button type="submit"><i class="fa-solid fa-trash-can"></i> Excluir</button>
-                </form>
+              <form th:action="@{/photo/{photo_id}/comment/{comment_id}/delete(photo_id=${photo_id}, comment_id=${comment.id})}"
+                    method="POST"
+                    onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')"
+                    class="text-sm/6 text-red-500">
+                <button type="submit"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+              </form>
             </div>
-
-
           </div>
         </div>
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -67,14 +87,12 @@
       </li>
     </ul>
 
-
     <form id="add-comment" th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">
       <p th:if="${tooLong}">Comentário muito longo. Insira no máximo 512 caracteres</p>
       <input th:value="${sentComment}" type="text" name="comment" placeholder="Adicione um comentário">
       <button type="submit">Enviar</button>
     </form>
   </div>
-
 </div>
 </body>
 </html>
