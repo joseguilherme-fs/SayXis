@@ -70,12 +70,22 @@
         <h1>Editando Comentário</h1>
 
         <form th:action="@{/photo/{photo_id}/comment/{comment_id}/update(photo_id=${photo_id}, comment_id=${comment.id})}" method="POST">
-            <textarea name="comment" required>[[${comment.commentText}]]</textarea>
+            <textarea name="comment">[[${comment.commentText}]]</textarea>
             <button class="accept" type="submit">Salvar Alterações</button>
         </form>
 
         <a th:href="@{/photo/{photo_id}(photo_id=${photo_id})}">Voltar</a>
     </div>
 
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            let commentText = document.querySelector("textarea").value.trim();
+            if (commentText === "") {
+                if (!confirm("O comentário está vazio. Deseja apagá-lo?")) {
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
 </body>
 </html>

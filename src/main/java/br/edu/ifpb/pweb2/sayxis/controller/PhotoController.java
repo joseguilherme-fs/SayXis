@@ -203,12 +203,20 @@ public class PhotoController {
             Comment comment = commentService.findById(comment_id);
 
             if (comment != null && comment.getPhotographer().getId().equals(photographer_id)) {
-                comment.setCommentText(newCommentText);
-                commentService.save(comment);
+                if (newCommentText.trim().isEmpty()) {
+                    // Se o comentário estiver vazio, deleta do banco
+                    commentService.deleteComment(comment_id);
+                } else {
+                    // Caso contrário, apenas atualiza o texto
+                    comment.setCommentText(newCommentText);
+                    commentService.save(comment);
+                }
             }
         }
-        return "redirect:/photo/{photo_id}";
+
+        return "redirect:/photo/" + photo_id;
     }
+
 
 
 }
