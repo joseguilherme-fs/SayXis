@@ -12,12 +12,36 @@
     <div th:if="${success}" class="text-center text-blue-800 font-semibold">
         <p th:text="${success}"></p>
     </div>
+<!-- Grid de fotos -->
 <div class="photo-grid">
     <div class="photo-card" th:each="photo : ${photos}">
         <a th:href="@{/photo/{photo_id}(photo_id=${photo.id})}">
             <img th:src="@{${photo.imageUrl}}" alt="Foto de ${photo.photographer.name}" />
         </a>
     </div>
+</div>
+<!-- Controles de paginação -->
+<div th:if="${totalPages > 1}" class="pagination">
+    <!-- Link "Anterior" -->
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/(page=${currentPage - 1}, size=${size})}"
+           class="pagination-link bg-blue-600 text-white font-medium px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+            Anterior
+        </a>
+    </span>
+
+    <!-- Exibe a página atual e o total de páginas -->
+    <span class="pagination-info text-gray-700 font-medium">
+        Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span>
+    </span>
+
+    <!-- Link "Próxima" -->
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/(page=${currentPage + 1}, size=${size})}"
+           class="pagination-link bg-blue-600 text-white font-medium px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+            Próxima
+        </a>
+    </span>
 </div>
 </body>
 </html>
