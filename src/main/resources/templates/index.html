@@ -7,7 +7,7 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
-<body style="background: linear-gradient(to right, #1d4ed8, #5a90ea);">
+<body style="background: linear-gradient(to right, #1d4ed8, #5a90ea); display: flex; flex-direction: column; justify-content: center; align-items: center; align-content: center;">
 <div th:insert="fragments/header :: header"></div>
     <div th:if="${success}" class="text-center text-blue-800 font-semibold">
         <p th:text="${success}"></p>
@@ -16,6 +16,10 @@
 <div class="photo-grid">
     <div class="photo-card" th:each="photo : ${photos}">
         <a th:href="@{/photo/{photo_id}(photo_id=${photo.id})}">
+            <div class="username">
+                <i class="fa-regular fa-circle-user"></i>
+                <p th:text="'@'+${photo.photographer.user.username}"></p>
+            </div>
             <img th:src="@{${photo.imageUrl}}" alt="Foto de ${photo.photographer.name}" />
         </a>
     </div>
