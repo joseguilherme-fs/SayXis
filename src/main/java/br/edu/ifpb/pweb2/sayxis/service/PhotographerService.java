@@ -33,10 +33,12 @@ public class PhotographerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-
     public Photographer findById(Integer id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Photographer findByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 
     public Photographer save(Photographer photographer) {

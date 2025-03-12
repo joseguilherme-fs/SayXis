@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.sayxis.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Photographer {
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 
+    @Valid
     @OneToOne
     @JoinColumn(name = "username")
     private User user;

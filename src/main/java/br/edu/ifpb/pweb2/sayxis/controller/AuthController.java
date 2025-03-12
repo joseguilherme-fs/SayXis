@@ -50,15 +50,35 @@ public class AuthController {
     public ModelAndView savePhotographer(@Valid Photographer photographer, BindingResult validation,
                                          RedirectAttributes attr, @RequestParam("profilePhoto") MultipartFile file) {
         ModelAndView modelAndView = new ModelAndView();
+
+        // Verifica se há erros de validação
         if (validation.hasErrors()) {
             modelAndView.setViewName("register-form");
             return modelAndView;
         }
 
-        userService.save(photographer.getUser());
-        Photographer newPhotographer = photographerService.save(photographer);
+        // Verifica se o e-mail já existe
+        if (photographerService.findByEmail(photographer.getEmail()) != null) {
+            modelAndView.addObject("mensagem", "Erro ao cadastrar fotógrafo: Este e-mail já existe no sistema");
+            modelAndView.setViewName("register-form");
+            return modelAndView;
+        }
+
+        // Verifica se o username já existe antes de tentar salvar
+        if (userService.findByUsername(photographer.getUser().getUsername()).isPresent()) {
+            modelAndView.addObject("mensagem", "Erro ao cadastrar fotógrafo: Este nome de usuário já existe no sistema.");
+            modelAndView.setViewName("register-form");
+            return modelAndView;
+        }
 
         try {
+            // Salva o usuário
+            userService.save(photographer.getUser());
+
+            // Salva o fotógrafo
+            Photographer newPhotographer = photographerService.save(photographer);
+
+            // Processa a foto de perfil, se houver
             if (!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
                 PhotoDTO savedPhoto = photoService.addPhoto(newPhotographer, file.getBytes(), true);
@@ -69,9 +89,11 @@ public class AuthController {
 
             attr.addFlashAttribute("message", "Fotógrafo cadastrado com sucesso!");
             modelAndView.setViewName("redirect:/auth/login");
-        } catch (Exception e){
+        } catch (Exception e) {
             modelAndView.addObject("mensagem", "Erro ao cadastrar fotógrafo: " + e.getMessage());
+            modelAndView.setViewName("register-form");
         }
+
         return modelAndView;
     }
 }
