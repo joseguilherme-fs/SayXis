@@ -7,7 +7,8 @@ import br.edu.ifpb.pweb2.sayxis.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class PhotoService {
@@ -19,6 +20,8 @@ public class PhotoService {
         return photoRepository.findById(photo_id)
                 .orElseThrow(() -> new RuntimeException("Foto não encontrada."));
     }
+
+    
 
     public Photo findProfilePhoto(Photographer photographer) {
         return photoRepository.findProfilePhoto(photographer);
@@ -41,8 +44,7 @@ public class PhotoService {
         return photoRepository.findPhotosByPhotographer(photographerId);
     }
 
-    public List<Photo> findAll() {
-        return photoRepository.findAllFeed();
+    public Page<Photo> findAll(Pageable pageable) {return photoRepository.findAllFeed(pageable);
     }
 
     public Photo save(Photo photo) {
