@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Acessar conta</title>
-    <link th:href="@{/output.css}" rel="stylesheet" />
-    <link th:href="@{/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/output.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
@@ -20,14 +20,17 @@
         <form th:action="@{/auth/login}" method="POST" class="space-y-6">
             <div>
                 <!-- Exibição dos erros -->
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
-                    Login e/ou senha inválidos!
+                <div class="alert alert-danger alert-dismissible fade show text-center text-red-500 font-semibold" role="alert" th:if="${param.error}">
+                    🚨Login e/ou senha inválidos!
                 </div>
             </div>
-
-            <label for="username" class="block text-sm/6 font-medium text-gray-900">Nome de usuário</label>
-            <div class="mt-2">
-                <input type="text" name="username" id="username" autocomplete="username" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="username" class="block text-sm/6 font-medium text-gray-900">Nome de usuário</label>
+                </div>
+                <div class="mt-2">
+                    <input type="text" name="username" id="username" autocomplete="username" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
+                </div>
             </div>
 
             <div>
