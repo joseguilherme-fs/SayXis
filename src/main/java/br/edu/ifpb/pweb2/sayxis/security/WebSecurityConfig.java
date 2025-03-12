@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/img/**", "/home/**", "/auth/signup/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**","/img/**", "/auth/signup/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
