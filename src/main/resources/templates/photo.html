@@ -43,6 +43,13 @@
             <p th:text="${comment.commentText}" class="mt-1 text-sm/5 text-gray-500 break-words"></p>
 
             <form th:if="${comment.photographer.id == session.user_id}"
+                  th:action="@{/photo/{photo_id}/comment/{comment_id}/edit(photo_id=${photo_id}, comment_id=${comment.id})}"
+                  method="GET"
+                  class="text-sm/6" style="color: #3b82f6">
+              <button type="submit"><i class="fa-solid fa-pen"></i> Editar comentário</button>
+            </form>
+
+            <form th:if="${comment.photographer.id == session.user_id}"
                   th:action="@{/photo/{photo_id}/comment/{comment_id}/delete(photo_id=${photo_id}, comment_id=${comment.id})}"
                   method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')"
