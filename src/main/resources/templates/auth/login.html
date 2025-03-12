@@ -17,16 +17,17 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form th:action="@{/photographer/login}" method="POST" th:object="${photographerData}" class="space-y-6">
+        <form th:action="@{/auth/login}" method="POST" class="space-y-6">
             <div>
-                <div class="warn-input" th:switch="${loginError}">
-                    <p th:case="'emailNotFound'" class="block text-sm 6 font-medium">O email não está registrado. Tente novamente.</p>
-                    <p th:case="'wrongPassword'" class="block text-sm 6 font-medium">Senha incorreta. Tente novamente.</p>
+                <!-- Exibição dos erros -->
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
+                    Login e/ou senha inválidos!
                 </div>
-                <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
-                <div class="mt-2">
-                    <input type="text" th:field="*{email}" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
-                </div>
+            </div>
+
+            <label for="username" class="block text-sm/6 font-medium text-gray-900">Nome de usuário</label>
+            <div class="mt-2">
+                <input type="text" name="username" id="username" autocomplete="username" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
             </div>
 
             <div>
@@ -34,7 +35,7 @@
                     <label for="password" class="block text-sm/6 font-medium text-gray-900">Senha</label>
                 </div>
                 <div class="mt-2">
-                    <input type="password" th:field="*{password}" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
+                    <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6"/>
                 </div>
             </div>
 
@@ -42,7 +43,7 @@
                 <button type="submit" class="flex w-full justify-center rounded-md bg-blue-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Entrar</button>
                 <div style="gap: 5px;" class="my-5 text-sm/6 flex w-full justify-center">
                     <p>Ainda não tem uma conta?</p>
-                    <a class="font-bold hover:text-blue-700" th:href="@{/photographer/register}">Cadastre-se.</a>
+                    <a class="font-bold hover:text-blue-700" th:href="@{/auth/signup}">Cadastre-se.</a>
                 </div>
             </div>
         </form>
