@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Header</title>
-
 </head>
 <body>
 
-  <header id="header-fragment" th:fragment="header">
-    <a  id="logo" th:href="@{/}" title="Home">
-      <h1 style="font-family: 'Sour Gummy', serif;">SA<span style="color: #1D4ED8FF;">Ÿ</span>XIS</h1>
+<header id="header-fragment" th:fragment="header">
+  <a id="logo" th:href="@{/home}" title="Home">
+    <h1 style="font-family: 'Sour Gummy', serif;">SA<span style="color: #1D4ED8FF;">Ÿ</span>XIS</h1>
+  </a>
+  <div>
+    <a th:href="@{/photo/upload}" sec:authorize="isAuthenticated()" class="nav-item">
+      <i class="fa-solid fa-plus"></i> Nova foto
     </a>
-    <div>
-      <a th:href="@{/photo/upload}" th:if="${session.user_id}" class="nav-item"><i class="fa-solid fa-plus"></i> Nova foto</a>
-      <a th:href="@{/admin}" th:if="${session.is_adm}" class="nav-item"><i class="fa-solid fa-user-shield"></i> Área de Administrador</a>
-      <a th:href="@{/photographer/{photographer_id}/profile(photographer_id=${session.user_id})}" class="nav-item" th:if="${session.user_id}"><i class="fa-solid fa-user"></i> Perfil</a>
-      <a class="nav-item" th:if="${session.user_id}" th:href="@{/photographer/logout}" th:object="${session}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
-      <a class="nav-item" th:if="!${session.user_id}" th:href="@{/photographer/login}" th:object="${session}"><i class="fa-solid fa-right-to-bracket"></i> Entrar</a>
-    </div>
 
-  </header>
+    <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')" class="nav-item">
+      <i class="fa-solid fa-user-shield"></i> Área de Administrador
+    </a>
+
+    <a th:href="@{/photographer/my/profile}" sec:authorize="isAuthenticated()" class="nav-item">
+      <i class="fa-solid fa-user"></i> Perfil
+    </a>
+
+    <form th:action="@{/auth/logout}" method="POST" sec:authorize="isAuthenticated()" style="display:inline;">
+      <button type="submit" class="nav-item" style="background: none; border: none; cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </button>
+    </form>
+
+
+    <a class="nav-item" sec:authorize="!isAuthenticated()" th:href="@{/auth/login}">
+      <i class="fa-solid fa-right-to-bracket"></i> Entrar
+    </a>
+  </div>
+</header>
 
 </body>
 </html>
