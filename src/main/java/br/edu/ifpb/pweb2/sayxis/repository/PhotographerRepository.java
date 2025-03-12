@@ -28,11 +28,11 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
         return null;
     }
 
-    Photographer findByEmail(String email);
+    Optional<Photographer> findByEmail(String email);
 
-    Optional<Photographer> findByUsername(String username);
+    @Query("from Photographer p join fetch p.user u where u.username = :username")
+    Photographer findByUsername(@Param("username") String username);
 
-    boolean existsByUsername(String username);
 
     @Query("select p from Photographer p where p.is_suspended = true")
     List<Photographer> findSuspendeds();

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,11 +57,11 @@ public class PhotoController {
             @RequestParam(value = "caption", required = false) String caption,
             @RequestParam(value = "hashtags", required = false) String hashtags,
             HttpSession session,
-            Model model
+            Model model,
+            Principal principal
     ) {
         try {
-            Integer idPhotographer = photographerController.userLogged(session);
-            Photographer photographer = photographerService.findById(idPhotographer);
+            Photographer photographer = photographerService.findByUsername(principal.getName());
 
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes(), false);
             Photo photo = photoService.findById(savedPhoto.getId());
@@ -100,9 +101,10 @@ public class PhotoController {
 
     //retorna a página da foto
     @GetMapping("/{photo_id}")
-    public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id) {
+    public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id, Principal principal) {
         String link_photo = "http://localhost:8080/photo/" + photo_id + "/image";
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+        Integer photographer_id = photographerLogged.getId();
         model.addAttribute("linkPhoto", link_photo);
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
@@ -129,11 +131,10 @@ public class PhotoController {
     }
 
     @PostMapping("/{photo_id}/like")
-    public String addLike(HttpSession session, @PathVariable Integer photo_id) {
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
+    public String addLike(Principal principal, @PathVariable Integer photo_id) {
 
-        Photographer photographer = photographerService.findById(photographer_id);
-
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+        Integer photographer_id = photographerLogged.getId();
         if (photographer_id != null) {
             likeService.addLike(photographer_id, photo_id);
             return "redirect:/photo/{photo_id}";
@@ -142,9 +143,9 @@ public class PhotoController {
     }
 
     @PostMapping("/{photo_id}/unlike")
-    public String removeLike(HttpSession session, @PathVariable Integer photo_id) {
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
-        Photographer photographer = photographerService.findById(photographer_id);
+    public String removeLike(Principal principal, @PathVariable Integer photo_id) {
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+        Integer photographer_id = photographerLogged.getId();
 
         if (photographer_id != null) {
             likeService.removeLike(photographer_id, photo_id);
@@ -154,13 +155,14 @@ public class PhotoController {
     }
 
     @PostMapping("/{photo_id}/add-comment")
-    public String addComment(RedirectAttributes ra, HttpSession session, @PathVariable Integer photo_id, @RequestParam("comment") String commentText) {
+    public String addComment(RedirectAttributes ra, Principal principal, @PathVariable Integer photo_id, @RequestParam("comment") String commentText) {
         if (commentText.length() > 512) {
             ra.addFlashAttribute("tooLong", true);
             ra.addFlashAttribute("sentComment", commentText);
             return "redirect:/photo/{photo_id}";
         }
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+        Integer photographer_id = photographerLogged.getId();
         if (photographer_id != null) {
             Photographer photographer = photographerService.findById(photographer_id);
             Photo photo = photoService.findById(photo_id);

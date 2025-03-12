@@ -1,11 +1,21 @@
 package br.edu.ifpb.pweb2.sayxis.service;
 
+import br.edu.ifpb.pweb2.sayxis.model.Authority;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
+import br.edu.ifpb.pweb2.sayxis.model.User;
+import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
+import br.edu.ifpb.pweb2.sayxis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhotographerService {
@@ -14,7 +24,14 @@ public class PhotographerService {
     private PhotographerRepository repository;
 
     @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
     private FollowService followService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -23,15 +40,17 @@ public class PhotographerService {
     }
 
     public Photographer save(Photographer photographer) {
-        repository.save(photographer);
-        return photographer;
+        Optional<Photographer> existingPhotographer = repository.findByEmail(photographer.getEmail());
+        if (existingPhotographer.isPresent()) {
+            throw new IllegalArgumentException("Email já cadastrado!");
+        }
+        return repository.save(photographer);
     }
 
-    public Photographer findByEmail(String email){return repository.findByEmail(email);}
-
-    public boolean existsByUsername(String username) {
-        return repository.findByUsername(username).isPresent();
+    public Photographer findByUsername(String username) {
+        return repository.findByUsername(username);
     }
+
 
     public List<Photographer> findSuspendeds() {
         return repository.findSuspendeds();
