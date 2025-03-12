@@ -110,7 +110,6 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     padding: 12px 0;
-    border-bottom: 1px solid #e0e0e0;
 }
 
 .comment .flex {
@@ -169,6 +168,13 @@ body {
 
 #add-comment button:hover {
     background-color: #4973ec;
+}
+
+.comment-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
