@@ -177,4 +177,15 @@ public class PhotoController {
         return "redirect:/photo/{photo_id}";
     }
 
+    @PostMapping("/{photo_id}/comment/{comment_id}/delete")
+    public String deleteComment(HttpSession session, @PathVariable("photo_id") Integer photo_Id, @PathVariable("comment_id") Integer comment_Id) {
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+
+        if (photographer_id != null) {
+            commentService.deleteComment(comment_Id);
+            return "redirect:/photo/{photo_id}";
+        }
+        return null;
+    }
+
 }
