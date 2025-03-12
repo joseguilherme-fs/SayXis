@@ -1,7 +1,10 @@
 package br.edu.ifpb.pweb2.sayxis.controller;
 
+import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
+import br.edu.ifpb.pweb2.sayxis.service.CommentService;
+import br.edu.ifpb.pweb2.sayxis.service.LikeService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotoService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/photographer")
@@ -26,6 +33,12 @@ public class PhotographerController {
 
     @Autowired
     PhotoService photoService;
+
+    @Autowired
+    LikeService likeService;
+
+    @Autowired
+    CommentService commentService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,6 +64,19 @@ public class PhotographerController {
         // Verificar se o fotógrafo logado está visualizando o próprio perfil
         boolean isOwnProfile = photographerLogged.getId().equals(photographerDB.getId());
 
+        List<Photo> photos = photoService.findPhotosByPhotographerId(id);
+        photos.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
+
+        List<Map<String, Object>> photoData = new ArrayList<>();
+
+        for (Photo photo : photos) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("photo", photo);
+            data.put("likes", likeService.countLikes(photo.getId()));
+            data.put("comments", commentService.countComments(photo.getId()));
+            photoData.add(data);
+        }
+
         // Adicionar atributos ao modelo
         model.addAttribute("photographer", photographerDB);
         model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerDB));
@@ -61,7 +87,8 @@ public class PhotographerController {
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("followAllowed", photographerDB.isFollowAllowed());
         model.addAttribute("isFollowing", photographerService.isFollowing(photographerDB, photographerLogged));
-        model.addAttribute("photos", photoService.findPhotosByPhotographerId(id));
+        model.addAttribute("photos", photos);
+        model.addAttribute("photoData", photoData);
 
         return "profile";
     }
@@ -80,6 +107,19 @@ public class PhotographerController {
 
         Boolean isOwnProfile = true;
 
+        List<Photo> photos = photoService.findPhotosByPhotographerId(photographerLogged.getId());
+        photos.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
+
+        List<Map<String, Object>> photoData = new ArrayList<>();
+
+        for (Photo photo : photos) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("photo", photo);
+            data.put("likes", likeService.countLikes(photo.getId()));
+            data.put("comments", commentService.countComments(photo.getId()));
+            photoData.add(data);
+        }
+
         // Adicionar atributos ao modelo
         model.addAttribute("photographer", photographerLogged);
         model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerLogged));
@@ -90,7 +130,8 @@ public class PhotographerController {
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("followAllowed", photographerLogged.isFollowAllowed());
         model.addAttribute("isFollowing", photographerService.isFollowing(photographerLogged, photographerLogged));
-        model.addAttribute("photos", photoService.findPhotosByPhotographerId(photographerLogged.getId()));
+        model.addAttribute("photos", photos);
+        model.addAttribute("photoData", photoData);
 
         return "profile";
     }

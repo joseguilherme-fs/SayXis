@@ -8,22 +8,23 @@
     <link th:href="@{/css/output.css}" rel="stylesheet" />
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
-<body>
+<body class="pb-16">
 <div th:insert="fragments/header :: header"></div>
 
 <div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
 <!--    Capa do perfil:-->
     <div class="rounded-t-lg h-32 overflow-hidden">
-        <img class="object-cover object-top w-full" src='https://thumbs.dreamstime.com/z/fotografia-da-c%C3%A2mera-tela-de-fundo-do-vetor-padr%C3%A3o-repetido-desenho-wallpaper-uniforme-216767768.jpg?w=992' alt='Capa do Perfil'>
+        <img class="object-cover object-top w-full" src='https://img.freepik.com/premium-photo/photo-equipment-frame-top-view-diverse-personal-equipment-photographer-creative-designer-copy-space_116547-6018.jpg?semt=ais_hybrid' alt='Capa do Perfil'>
     </div>
 <!--    Foto do perfil:-->
-    <div th:if="${profilePhoto != null}" class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-        <img class="object-cover object-center h-32" th:src="${profilePhoto.imageUrl}" alt='Foto do perfil'>
+    <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+        <img th:if="${profilePhoto != null}" class="object-cover object-center h-32" th:src="${profilePhoto.imageUrl}" alt='Foto do perfil'>
+        <img th:if="${profilePhoto == null}" class="object-cover object-center h-32" src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt='Foto do perfil'>
     </div>
     <div class="text-center mt-2">
         <h2 class="font-semibold" th:text="${photographer.name}"></h2>
         <p class="text-sm text-gray-500" th:text="${nickname}"></p>
-        <p th:if="${photographer.city != null && photographer.country != null}" class="text-xs text-gray-500 py-2" th:text="${photographer.city} + ' - ' + ${photographer.country}"><i class="fa-solid fa-location-dot"></i></p>
+        <p class="text-xs text-gray-500 py-2" th:inline="text"><i class="fa-solid fa-location-dot"></i> [[${photographer.city} + ' - ' + ${photographer.country}]]</p>
     </div>
     <ul class="py-4 mt-2 flex items-center justify-around">
         <li class="flex flex-col items-center justify-around">
@@ -81,17 +82,27 @@
         </button>
     </div>
 </div>
-<div class="mt-8 max-w-2xl mx-auto">
-    <h3 class="text-lg font-semibold text-gray-900 mb-4">Publicações</h3>
-    <div class="grid grid-cols-3 gap-4">
-        <a th:each="photo : ${photos}"
-           th:href="@{'/photo/' + ${photo.id}}"
-           class="block">
-            <img th:src="@{'/photo/' + ${photo.id} + '/image'}"
-                 class="object-cover w-full h-40 rounded-md hover:opacity-75 transition-opacity">
-        </a>
+<div class="pt-16 mt-8 max-w-2xl mx-auto">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Publicações</h3>
+    <div class="pt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div th:each="data : ${photoData}">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <a th:href="@{'/photo/' + ${data.photo.id}}">
+                    <img th:src="@{'/photo/' + ${data.photo.id} + '/image'}" class="w-full h-76 object-cover">
+                </a>
+                <div class="p-2 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-heart text-red-500"></i>
+                        <span th:text="${data.likes}"></span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-comment text-blue-500"></i>
+                        <span th:text="${data.comments}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

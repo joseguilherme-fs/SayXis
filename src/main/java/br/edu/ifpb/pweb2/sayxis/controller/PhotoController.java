@@ -104,6 +104,11 @@ public class PhotoController {
     public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id, Principal principal) {
         String link_photo = "http://localhost:8080/photo/" + photo_id + "/image";
         Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+
+        Photo photo = photoService.findById(photo_id);
+        Photographer photographer = photo.getPhotographer();
+
+
         Integer photographer_id = photographerLogged.getId();
         model.addAttribute("linkPhoto", link_photo);
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
@@ -111,6 +116,8 @@ public class PhotoController {
         model.addAttribute("comments", commentService.getComments(photo_id));
         model.addAttribute("tags", photoTagService.getTags(photo_id));
         model.addAttribute("photo_id", photo_id);
+        model.addAttribute("photographer", photographer);
+        model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographer));
         if (commentService.getCaption(photo_id) != null) {
             model.addAttribute("caption", commentService.getCaption(photo_id).getCommentText());
         }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Photo Card</title>
+</head>
+<body>
+<th:block th:fragment="photo-card(photo)">
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <a th:href="@{'/photo/' + ${photo.id}}">
+      <img th:src="@{'/photo/' + ${photo.id} + '/image'}" class="w-full h-80 object-cover">
+    </a>
+    <div class="p-2 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-heart text-red-500"></i>
+        <span th:text="${@likeService.countLikes(photo.id)}"></span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-comments text-blue-500"></i>
+        <span th:text="${@commentService.countComments(photo.id)}"></span>
+      </div>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>

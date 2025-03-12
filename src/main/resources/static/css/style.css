@@ -80,12 +80,10 @@ body {
 
 
 .photo-card:hover {
-    transform: scale(1.02); /* Aumenta ligeiramente o cartão */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
+    transform: scale(1.02);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-
-/* Estilos para a barra de paginação */
 .pagination {
     display: flex;
     justify-content: center;

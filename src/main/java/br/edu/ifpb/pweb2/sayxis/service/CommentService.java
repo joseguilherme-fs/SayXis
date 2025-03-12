@@ -55,6 +55,15 @@ public class CommentService {
         return null;
     }
 
+    public Integer countComments(Integer photoId) {
+        Photo photo = photoService.findById(photoId);
+        if (photo != null) {
+            return commentRepository.countComments(photo);
+        } else {
+            return null;
+        }
+    }
+
     public Comment getCaption(Integer photoId) {
         Photo photo = photoService.findById(photoId);
         if (photo != null) {
