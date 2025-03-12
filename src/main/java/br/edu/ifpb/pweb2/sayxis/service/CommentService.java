@@ -37,6 +37,12 @@ public class CommentService {
         save(comment);
     }
 
+    public void deleteComment(Integer comment_id) {
+        if (findById(comment_id) != null) {
+            commentRepository.deleteById(comment_id);
+        }
+    }
+
     public void save(Comment comment) {
         commentRepository.save(comment);
     }
