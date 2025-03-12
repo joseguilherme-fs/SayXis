@@ -188,4 +188,27 @@ public class PhotoController {
         return null;
     }
 
+    @GetMapping("/{photo_id}/comment/{comment_id}/edit")
+    public String editCommentForm(@PathVariable Integer photo_id, @PathVariable Integer comment_id, Model model) {
+        Comment comment = commentService.findById(comment_id);
+        model.addAttribute("comment", comment);
+        model.addAttribute("photo_id", photo_id);
+        return "/edit-comment";
+    }
+
+    @PostMapping("/{photo_id}/comment/{comment_id}/update")
+    public String updateComment(@PathVariable Integer photo_id, @PathVariable Integer comment_id, @RequestParam("comment") String newCommentText, HttpSession session) {
+        Integer photographer_id = (Integer) session.getAttribute("user_id");
+        if (photographer_id != null) {
+            Comment comment = commentService.findById(comment_id);
+
+            if (comment != null && comment.getPhotographer().getId().equals(photographer_id)) {
+                comment.setCommentText(newCommentText);
+                commentService.save(comment);
+            }
+        }
+        return "redirect:/photo/{photo_id}";
+    }
+
+
 }
