@@ -27,7 +27,7 @@ public class HomeController {
     @Autowired
     private PhotoService photoService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String showHomePage(Model model,
                                @RequestParam(defaultValue = "0")int page,
                                @RequestParam(defaultValue = "10")int size) {

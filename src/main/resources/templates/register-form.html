@@ -34,7 +34,7 @@
 
             <!-- Username -->
             <div>
-                <label for="username" class="block text-sm/6 font-medium text-gray-900">Nome de Usuário</label>
+                <label for="username" class="block text-sm/6 font-medium text-gray-900">Nome de usuário</label>
                 <div class="mt-2">
                     <input type="text" th:field="*{user.username}" id="username" name="username" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-700 sm:text-sm/6" />
                     <p th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" class="text-red-500 text-sm"></p>
