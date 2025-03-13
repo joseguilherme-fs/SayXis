@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 
-<body class="h-full">
+<body  class="body-header-footer">
 <div th:insert="fragments/header :: header"></div>
-<div class="flex min-h-full flex-col justify-start px-0 py-0 lg:px-8">
+<div>
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Acesse a sua conta</h2>
     </div>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form th:action="@{/auth/login}" method="POST" class="space-y-6">
+    <div>
+        <form th:action="@{/auth/login}" method="POST" class="space-y-6" style="min-width: 400px">
             <div>
                 <!-- Exibição dos erros -->
                 <div class="alert alert-danger alert-dismissible fade show text-center text-red-500 font-semibold" role="alert" th:if="${param.error}">
@@ -52,6 +52,6 @@
         </form>
     </div>
 </div>
-
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

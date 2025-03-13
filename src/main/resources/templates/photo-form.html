@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Criar nova publicação</title>
 </head>
-<body class="bg-gray-50 flex items-center justify-center flex-col">
+<body  class="body-header-footer bg-gray-50">
 <div th:insert="fragments/header :: header"></div>
 <!-- Layout Principal -->
 <div class="flex bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 gap-6">
@@ -97,5 +97,6 @@
     </div>
 </div>
 <script type="text/javascript" th:src="@{/js/script.js}"></script>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

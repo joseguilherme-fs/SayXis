@@ -9,7 +9,7 @@
     <link th:href="@{/css/output.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
-<body>
+<body class="body-header-footer">
     <div th:insert="fragments/header :: header"></div>
     <h1 id="title">Área de Administrador</h1>
     <a id="list-users" th:href="@{/admin/list-users}">
@@ -45,6 +45,6 @@
             </tr>
         </tbody>
     </table>
-
+    <div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

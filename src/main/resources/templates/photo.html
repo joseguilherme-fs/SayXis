@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body>
+<body class="body-header-footer">
 <div th:insert="fragments/header :: header"></div>
 <div id="post">
   <div id="photographer-info" class="flex items-center gap-4 mb-4">
@@ -124,6 +124,7 @@
 <!--    </form>-->
   </div>
 </div>
+<div th:insert="fragments/footer :: footer"></div>
 <script type="text/javascript" th:src="@{/js/tag.js}"></script>
 </body>
 </html>

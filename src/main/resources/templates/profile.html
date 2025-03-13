@@ -8,7 +8,7 @@
     <link th:href="@{/css/output.css}" rel="stylesheet" />
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
-<body class="pb-16">
+<body>
 <div th:insert="fragments/header :: header"></div>
 
 <div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
@@ -104,5 +104,6 @@
         </div>
     </div>
 </div>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
