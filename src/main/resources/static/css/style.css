@@ -15,6 +15,14 @@ body {
     overflow-x: hidden;
 }
 
+.body-header-footer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #header-fragment {
     width: 100vw;
     padding: 15px 50px;
@@ -28,6 +36,82 @@ body {
     align-content: center;
     box-sizing: border-box;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#footer-fragment {
+    width: 100vw;
+    text-align: center;
+    padding: 20px;
+    background-color: #000000;
+    color: #ffffff;
+    margin-top: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.footer-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    gap: 5px;
+}
+
+.footer-authors a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    gap: 5px;
+    transition: 0.3s;
+}
+
+.footer-authors a:hover {
+    color: #007bff;
+    transition: 0.3s;
+}
+
+.footer-authors img {
+    width: 25px;
+    border: 2px solid #007bff;
+    border-radius: 100%;
+    transition: 0.3s;
+}
+
+.footer-authors img:hover {
+    transition: 0.3s;
+}
+
+.footer-github {
+    margin: 10px;
+    font-size: 40px;
+}
+
+.footer-github a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-github a:hover {
+    color: #007bff;
+    transition: 0.3s;
+}
+
+.vertical-line {
+    border-right: 1px solid #ffffff;
+    height: 10px;
+    margin: 0 5px;
 }
 
 #logo {
@@ -115,7 +199,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: fit-content;
-    margin: 20px auto;
 }
 
 .pagination a {
