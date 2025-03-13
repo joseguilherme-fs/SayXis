@@ -4,13 +4,13 @@ import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.PhotoTag;
 import br.edu.ifpb.pweb2.sayxis.model.PhotoTagId;
 import br.edu.ifpb.pweb2.sayxis.model.Tag;
-import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotoTagRepository;
 import br.edu.ifpb.pweb2.sayxis.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
@@ -25,6 +25,17 @@ public class TagService {
 
     public List<Tag> findAll() {
         return tagRepository.findAll();
+    }
+
+    public List<String> getTagNames() {
+        return tagRepository.findAll()
+                .stream()
+                .map(tag -> tag.getTagName().toLowerCase())
+                .collect(Collectors.toList());
+    }
+
+    public Tag findByTagName(String tagName) {
+        return tagRepository.findByTagName(tagName).orElse(null);
     }
 
     public Tag addTag(String name) {
