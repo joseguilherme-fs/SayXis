@@ -32,6 +32,11 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "auth/access-denied";
+    }
+
     @GetMapping("/login")
     public ModelAndView getLoginForm(ModelAndView modelAndView) {
         modelAndView.setViewName("auth/login");

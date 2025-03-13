@@ -3,9 +3,7 @@ package br.edu.ifpb.pweb2.sayxis.controller;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.repository.PhotographerRepository;
-import br.edu.ifpb.pweb2.sayxis.service.AccessService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotoService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +21,6 @@ public class AdminController {
     PhotographerRepository photographerService;
 
     @Autowired
-    AccessService accessService;
-    @Autowired
     private PhotoService photoService;
 
     @GetMapping("/admin")
@@ -38,12 +34,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/list-users")
-    public String listUsers(Model model, RedirectAttributes ra, HttpSession session) {
-        String userPermission = accessService.checkPermission(session, ra);
-        if (userPermission != null) {
-            return userPermission;
-        }
-
+    public String listUsers(Model model) {
         model.addAttribute("photographers", photographerService.findAll());
         model.addAttribute("listPhotographers", true);
         return "/admin";

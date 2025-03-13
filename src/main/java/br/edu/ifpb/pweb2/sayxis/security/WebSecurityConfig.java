@@ -44,7 +44,10 @@ public class WebSecurityConfig {
                     logout.invalidateHttpSession(true);
                     logout.clearAuthentication(true);
                     logout.deleteCookies("JSESSIONID");
-                });
+                })
+                .exceptionHandling(exception ->
+                        exception.accessDeniedPage("/auth/access-denied")
+                );
         return http.build();
     }
 
