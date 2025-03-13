@@ -50,9 +50,35 @@
       <div id="caption">
         <p th:if="${caption}" th:text="${caption}"></p>
       </div>
-      <ul id="tags">
-        <li th:each="tag : ${tags}" th:text="'#'+${tag}" class="tag"></li>
-      </ul>
+
+      <div id="tags">
+        <div th:if="${!editTags}" id="display-tags" class="tags-header">
+          <div id="tags-photo" th:if="${tags.size > 0}">
+            <span th:each="tag : ${tags}" th:text="'#'+${tag}" class="tag"></span>
+          </div>
+          <span class="tag" th:if="${tags.size == 0}">Foto sem tags</span>
+          <form th:action="@{/photo/{photo_id}/edit-tags(photo_id=${photo_id})}" method="GET">
+            <button id="edit-btn" th:if="${isAuthor}"><i class="fa-solid fa-pen"></i></button>
+          </form>
+        </div>
+
+        <div th:if="${editTags}" id="edit-tags">
+          <div id="edit-header">
+            <p id="db-tags-title">Tags existentes no banco</p>
+            <form th:action="@{/photo/{photo_id}/save-tag-edition(photo_id=${photo_id})}" method="GET">
+              <input type="hidden" id="hashtagsInput" name="hashtags" th:value="${hashtags}" />
+              <button id="confirm-edition-btn" th:if="${isAuthor}"><i class="fa-solid fa-check"></i></button>
+            </form>
+          </div>
+          <div class="tags-header">
+            <div id="not-tags-photo">
+              <button th:each="tag : ${notPhotoTags}" th:text="'#'+${tag}" class="tag"></button>
+            </div>
+          </div>
+          <input id="input-new-tags" type="text" name="comment" placeholder="Digite uma hashtag e pressione Enter ou vírgula">
+          <ul id="new-tags"></ul>
+        </div>
+      </div>
     </div>
 
     <ul id="photo-comments" role="list" class="divide-y divide-gray-400 overflow-y-auto">
@@ -90,8 +116,11 @@
     <form id="add-comment" th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">
       <p th:if="${tooLong}">Comentário muito longo. Insira no máximo 512 caracteres</p>
       <input th:value="${sentComment}" type="text" name="comment" placeholder="Adicione um comentário">
-      <button type="submit">Enviar</button>
     </form>
+
+<!--    <form th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">-->
+<!--      <button th:disabled="${canComment == false && isAuthor == false}" type="submit">Enviar</button>-->
+<!--    </form>-->
   </div>
 </div>
 </body>

@@ -77,17 +77,19 @@ body {
 #tags {
     list-style: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
     margin-top: 10px;
+}
+
+#tags button {
+    cursor: pointer;
 }
 
 .tag {
     background-color: #e4e6e9;
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 4px 12px;
     margin: 2px 5px 5px 0;
-    font-size: 15px;
+    font-size: 14px;
     color: #555;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -95,6 +97,75 @@ body {
 .tag:hover {
     background-color: #d1d3d6;
     color: #000;
+}
+
+.tags-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.tags-header ul {
+    display: flex;
+    flex-direction: row;
+}
+
+#edit-tags {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f7fd;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#edit-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#confirm-edition-btn, #edit-btn {
+    width: 50px;
+    height: 30px;
+    color: #ffffff;
+    background-color: #1d4ed8;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#confirm-edition-btn:hover, #edit-btn:hover {
+    background-color: #4973ec;
+}
+
+#db-tags-title {
+    font-size: 15px;
+    color: #333333;
+    padding: 0 10px 10px 10px;
+}
+
+#new-tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+#tags-photo, #not-tags-photo {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#input-new-tags {
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
 }
 
 #photo-comments {
@@ -204,6 +275,11 @@ body {
 
 #add-comment button:hover {
     background-color: #4973ec;
+}
+
+#add-comment button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
 }
 
 .comment-actions {
