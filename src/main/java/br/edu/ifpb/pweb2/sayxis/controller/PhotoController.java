@@ -67,21 +67,7 @@ public class PhotoController {
 
             //adiciona hashtags, se houver
             if (!hashtags.isEmpty()) {
-                String[] tagsArray = hashtags.split(",");
-                String TagName;
-                for (String tag : tagsArray) {
-                    TagName = tag.trim().toLowerCase();
-                    if (!TagName.isEmpty()) {
-                        //cria uma nova tag
-                        Tag savedTag = tagService.addTag(TagName);
-
-                        //cria um objeto PhotoTagId
-                        PhotoTagId savedPhotoTagId = tagService.addPhotoTagId(savedPhoto.getId(), savedTag.getId());
-
-                        //cria o relacionamento PhotoTag
-                        tagService.addPhotoTag(savedPhotoTagId,savedPhoto,savedTag);
-                    }
-                }
+                photoTagService.processTags(hashtags, photo);
             }
 
             //adiciona legenda como comentário, se houver

@@ -41,11 +41,10 @@ public class TagService {
                 .build();
     }
 
-    public void addPhotoTag(PhotoTagId photoTag_id, PhotoDTO photo, Tag tag) {
-        Photo savedPhoto = photoService.findById(photo.getId());
+    public void addPhotoTag(PhotoTagId photoTag_id, Photo photo, Tag tag) {
         PhotoTag newPhotoTag = PhotoTag.builder()
                 .id(photoTag_id)
-                .photo(savedPhoto)
+                .photo(photo)
                 .tag(tag)
                 .build();
         savePhotoTag(newPhotoTag);
