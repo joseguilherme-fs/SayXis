@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,12 +8,30 @@
   <link th:href="@{/css/style.css}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+  <style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #photo-comments, #photo-comments * {
+        visibility: visible;
+      }
+      .comment-actions {
+        display: none !important;
+      }
+
+      #photo-comments {
+        overflow-y: visible;
+      }
+    }
+  </style>
 </head>
 <body class="body-header-footer">
 <div th:insert="fragments/header :: header"></div>
 <div id="post">
   <div id="photographer-info" class="flex items-center gap-4 mb-4">
-    <a th:href="@{'/photographer/' + ${photographer.id} + '/profile'}">
+    <a th:href="@{'/photographer/' + ${author.id} + '/profile'}">
       <div id="photographer-photo" class="w-12 h-12 rounded-full overflow-hidden">
         <img th:if="${profilePhoto != null}" th:src="${profilePhoto.imageUrl}" alt="Foto do Fotógrafo" class="w-full h-full object-cover" />
         <img th:if="${profilePhoto == null}"  src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="Foto do Fotógrafo" class="w-full h-full object-cover" />
@@ -22,12 +40,12 @@
 
     <div class="flex flex-col">
       <!-- Nome do Fotógrafo -->
-      <a th:href="@{'/photographer/' + ${photographer.id} + '/profile'}" class="text-xl font-bold text-gray-900">
-        <span th:text="${photographer.name}"></span>
+      <a th:href="@{'/photographer/' + ${author.id} + '/profile'}" class="text-xl font-bold text-gray-900">
+        <span th:text="${author.name}"></span>
       </a>
 
       <div class="text-sm text-gray-500">
-        <span>@</span><span th:text="${photographer.getUser().getUsername()}"></span>
+        <span>@</span><span th:text="${author.getUser().getUsername()}"></span>
       </div>
     </div>
   </div>
@@ -91,18 +109,18 @@
             </a>
             <p th:text="${comment.commentText}" class="mt-1 text-sm/5 text-gray-500 break-words"></p>
 
-            <div class="comment-actions" th:if="${comment.photographer.id == session.user_id}">
+            <div class="comment-actions" th:if="${comment.photographer.id == authPhotographerId}">
               <form th:action="@{/photo/{photo_id}/comment/{comment_id}/edit(photo_id=${photo_id}, comment_id=${comment.id})}"
                     method="GET"
                     class="text-sm/6" style="color: #3b82f6">
-                <button type="submit"><i class="fa-solid fa-pen"></i> Editar</button>
+                <button id="edit-comment-btn" type="submit"><i class="fa-solid fa-pen"></i> Editar</button>
               </form>
 
               <form th:action="@{/photo/{photo_id}/comment/{comment_id}/delete(photo_id=${photo_id}, comment_id=${comment.id})}"
                     method="POST"
                     onsubmit="return confirm('Tem certeza que deseja excluir este comentário?')"
                     class="text-sm/6 text-red-500">
-                <button type="submit"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                <button id="delete-comment-btn" type="submit"><i class="fa-solid fa-trash-can"></i> Excluir</button>
               </form>
             </div>
           </div>
@@ -119,12 +137,34 @@
       <button th:disabled="${canComment == false && isAuthor == false}" type="submit">Enviar</button>
     </form>
 
-<!--    <form th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">-->
-<!--      <button th:disabled="${canComment == false && isAuthor == false}" type="submit">Enviar</button>-->
-<!--    </form>-->
+    <form id="generate-pdf" sec:authorize="hasRole('ADMIN')" th:if="${comments.size > 0}" method="POST">
+      <button id="generate-pdf-btn" type="submit">
+        <i class="fa-solid fa-file-pdf"></i> Gerar relatório dos comentários
+      </button>
+    </form>
+
   </div>
 </div>
 <div th:insert="fragments/footer :: footer"></div>
 <script type="text/javascript" th:src="@{/js/tag.js}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("generate-pdf-btn").addEventListener("click", function (event) {
+      event.preventDefault();
+
+      let originalBody = document.body.innerHTML;
+      let commentsSection = document.getElementById("photo-comments").outerHTML;
+
+      document.body.innerHTML = commentsSection;
+
+      window.print();
+
+      document.body.innerHTML = originalBody;
+      location.reload();
+    });
+  });
+</script>
+
 </body>
 </html>

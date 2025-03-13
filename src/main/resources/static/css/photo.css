@@ -236,6 +236,27 @@ body {
     transition: background-color 0.3s ease;
 }
 
+#generate-pdf {
+    display: flex;
+    justify-content: center;
+}
+
+#generate-pdf-btn {
+    padding: 12px;
+    margin-top: 25px;
+    background-color: #000d30;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#generate-pdf-btn:hover {
+    background-color: #4973ec;
+}
+
 #photographer-info {
     display: flex;
     align-items: center;
@@ -286,6 +307,18 @@ body {
     flex-direction: row;
     gap: 25px;
     margin-top: 10px;
+}
+
+.comment-actions button {
+    cursor: pointer;
+    transition: color 0.3s ease;}
+
+#edit-comment-btn:hover {
+    color: #145abf;
+}
+
+#delete-comment-btn:hover {
+    color: #bf1b1b;
 }
 
 @media (max-width: 768px) {
