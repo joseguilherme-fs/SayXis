@@ -21,7 +21,10 @@ public class PhotoService {
                 .orElseThrow(() -> new RuntimeException("Foto não encontrada."));
     }
 
-    
+    public Integer authorId(Integer photo_id) {
+        Photo photo = findById(photo_id);
+        return photo.getPhotographer().getId();
+    }
 
     public Photo findProfilePhoto(Photographer photographer) {
         return photoRepository.findProfilePhoto(photographer);
@@ -35,7 +38,6 @@ public class PhotoService {
                 .build();
         return new PhotoDTO(save(photo));
     }
-
     public Long countPhotosByPhotographerId (Integer photographerId) {
         return photoRepository.countPhotosByPhotographerId(photographerId);
     }
