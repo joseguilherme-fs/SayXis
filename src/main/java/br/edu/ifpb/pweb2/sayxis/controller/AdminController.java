@@ -61,4 +61,34 @@ public class AdminController {
 
         return "redirect:/admin";
     }
+
+    @PostMapping("/admin/{photographer_id}/reactivate")
+    public String reactivatePhotographer(RedirectAttributes ra, @PathVariable Integer photographer_id) {
+        Photographer photographer = photographerService.findById(photographer_id).get();
+        photographer.set_suspended(false);
+        photographerService.save(photographer);
+        ra.addFlashAttribute("photographer", photographer);
+
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/{photographer_id}/suspend-comment")
+    public String suspendCommentAction(RedirectAttributes ra, @PathVariable Integer photographer_id) {
+        Photographer photographer = photographerService.findById(photographer_id).get();
+        photographer.setHas_comment_permission(false);
+        photographerService.save(photographer);
+        ra.addFlashAttribute("photographer", photographer);
+
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/{photographer_id}/reactivate-comment")
+    public String reactivateCommentAction(RedirectAttributes ra, @PathVariable Integer photographer_id) {
+        Photographer photographer = photographerService.findById(photographer_id).get();
+        photographer.setHas_comment_permission(true);
+        photographerService.save(photographer);
+        ra.addFlashAttribute("photographer", photographer);
+
+        return "redirect:/admin";
+    }
 }
