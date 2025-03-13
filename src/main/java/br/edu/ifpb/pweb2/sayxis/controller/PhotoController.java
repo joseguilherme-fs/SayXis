@@ -115,6 +115,18 @@ public class PhotoController {
         return "/photo";
     }
 
+    @GetMapping("/{photo_id}/edit-tags")
+    public String editPhotoTags(@PathVariable Integer photo_id){
+        return "redirect:/photo/" + photo_id + "?editTags=true";
+    }
+
+    @GetMapping("/{photo_id}/save-tag-edition")
+    public String savePhotoTagEditions(@PathVariable Integer photo_id, @RequestParam(required = false) String hashtags){
+        Photo photo = photoService.findById(photo_id);
+        photoTagService.processTags(hashtags, photo);
+        return "redirect:/photo/" + photo_id + "?editTags=false";
+    }
+
     //retorna a imagem da página da foto
     @GetMapping("/{photo_id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Integer photo_id) {
