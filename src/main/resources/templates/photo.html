@@ -116,6 +116,7 @@
     <form id="add-comment" th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">
       <p th:if="${tooLong}">Comentário muito longo. Insira no máximo 512 caracteres</p>
       <input th:value="${sentComment}" type="text" name="comment" placeholder="Adicione um comentário">
+      <button th:disabled="${canComment == false && isAuthor == false}" type="submit">Enviar</button>
     </form>
 
 <!--    <form th:action="@{/photo/{photo_id}/add-comment(photo_id=${photo_id})}" method="POST">-->

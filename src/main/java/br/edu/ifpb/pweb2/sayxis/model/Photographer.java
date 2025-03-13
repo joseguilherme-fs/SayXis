@@ -40,6 +40,9 @@ public class Photographer {
     private boolean is_suspended = false;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean has_comment_permission = true;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean followAllowed = true;
 
     private byte[] profile_photo = null;
