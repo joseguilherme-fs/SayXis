@@ -4,6 +4,7 @@ import br.edu.ifpb.pweb2.sayxis.model.Photographer;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,5 +25,10 @@ public class GlobalControllerAdvice {
             return photographer != null ? photographer.getId() : null;
         }
         return null;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleAllExceptions(Exception e) {
+        return "error";
     }
 }
