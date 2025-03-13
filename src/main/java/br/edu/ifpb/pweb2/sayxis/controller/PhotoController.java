@@ -3,7 +3,6 @@ package br.edu.ifpb.pweb2.sayxis.controller;
 import br.edu.ifpb.pweb2.sayxis.model.*;
 import br.edu.ifpb.pweb2.sayxis.model.dto.PhotoDTO;
 import br.edu.ifpb.pweb2.sayxis.service.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +22,6 @@ public class PhotoController {
 
     @Autowired
     private PhotoService photoService;
-
-    @Autowired
-    private PhotographerController photographerController;
-
-    @Autowired
-    private TagService tagService;
 
     @Autowired
     private CommentService commentService;
@@ -54,11 +47,11 @@ public class PhotoController {
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "caption", required = false) String caption,
             @RequestParam(value = "hashtags", required = false) String hashtags,
-            HttpSession session,
             Model model,
             Principal principal
     ) {
         try {
+
             Photographer photographer = photographerService.findByUsername(principal.getName());
 
             PhotoDTO savedPhoto = photoService.addPhoto(photographer, file.getBytes(), false);
@@ -90,13 +83,11 @@ public class PhotoController {
         Photographer photographerLogged = photographerService.findByUsername(principal.getName());
 
         Photo photo = photoService.findById(photo_id);
-        Photographer photographer = photo.getPhotographer();
-
+        Photographer author = photo.getPhotographer();
 
         Integer photographer_id = photographerLogged.getId();
         boolean canComment = photographerLogged.isHas_comment_permission();
-        Integer authorId = photoService.authorId(photo_id);
-        boolean isAuthor = photographer_id.equals(authorId);
+        boolean isAuthor = photographer_id.equals(photoService.authorId(photo_id));
         model.addAttribute("linkPhoto", link_photo);
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
@@ -104,8 +95,9 @@ public class PhotoController {
         model.addAttribute("tags", photoTagService.getTags(photo_id));
         model.addAttribute("notPhotoTags", photoTagService.getNotPhotoTags(photo_id));
         model.addAttribute("photo_id", photo_id);
-        model.addAttribute("photographer", photographer);
-        model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographer));
+        model.addAttribute("author", author);
+        model.addAttribute("photographerLogged", photographerLogged);
+        model.addAttribute("profilePhoto", photoService.findProfilePhoto(author));
         model.addAttribute("canComment", canComment);
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("editTags", editTags);
@@ -190,10 +182,10 @@ public class PhotoController {
     }
 
     @PostMapping("/{photo_id}/comment/{comment_id}/delete")
-    public String deleteComment(HttpSession session, @PathVariable("photo_id") Integer photo_Id, @PathVariable("comment_id") Integer comment_Id) {
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
+    public String deleteComment(@PathVariable("photo_id") Integer photo_Id, @PathVariable("comment_id") Integer comment_Id, Principal principal) {
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
 
-        if (photographer_id != null) {
+        if (photographerLogged != null) {
             commentService.deleteComment(comment_Id);
             return "redirect:/photo/{photo_id}";
         }
@@ -209,12 +201,13 @@ public class PhotoController {
     }
 
     @PostMapping("/{photo_id}/comment/{comment_id}/update")
-    public String updateComment(@PathVariable Integer photo_id, @PathVariable Integer comment_id, @RequestParam("comment") String newCommentText, HttpSession session) {
-        Integer photographer_id = (Integer) session.getAttribute("user_id");
-        if (photographer_id != null) {
+    public String updateComment(@PathVariable Integer photo_id, @PathVariable Integer comment_id, @RequestParam("comment") String newCommentText, Principal principal) {
+        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
+
+        if (photographerLogged != null) {
             Comment comment = commentService.findById(comment_id);
 
-            if (comment != null && comment.getPhotographer().getId().equals(photographer_id)) {
+            if (comment != null && comment.getPhotographer().getId().equals(photographerLogged.getId())) {
                 if (newCommentText.trim().isEmpty()) {
                     // Se o comentário estiver vazio, deleta do banco
                     commentService.deleteComment(comment_id);
