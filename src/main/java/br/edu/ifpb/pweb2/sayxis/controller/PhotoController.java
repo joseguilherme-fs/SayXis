@@ -12,8 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +83,7 @@ public class PhotoController {
                     }
                 }
             }
+
             //adiciona legenda como comentário, se houver
             if (!caption.isEmpty()) {
                 commentService.addComment(photographer, savedPhoto, caption);
@@ -100,7 +99,7 @@ public class PhotoController {
 
     //retorna a página da foto
     @GetMapping("/{photo_id}")
-    public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id, Principal principal) {
+    public String getPhoto(Model model, @PathVariable Integer photo_id, Principal principal, @RequestParam(value = "editTags", required = false, defaultValue = "false") boolean editTags) {
         String link_photo = "http://localhost:8080/photo/" + photo_id + "/image";
         Photographer photographerLogged = photographerService.findByUsername(principal.getName());
 
@@ -109,14 +108,21 @@ public class PhotoController {
 
 
         Integer photographer_id = photographerLogged.getId();
+        boolean canComment = photographerLogged.isHas_comment_permission();
+        Integer authorId = photoService.authorId(photo_id);
+        boolean isAuthor = photographer_id.equals(authorId);
         model.addAttribute("linkPhoto", link_photo);
         model.addAttribute("numberOfLikes", likeService.countLikes(photo_id));
         model.addAttribute("isLiked", likeService.isLiked(photographer_id, photo_id));
         model.addAttribute("comments", commentService.getComments(photo_id));
         model.addAttribute("tags", photoTagService.getTags(photo_id));
+        model.addAttribute("notPhotoTags", photoTagService.getNotPhotoTags(photo_id));
         model.addAttribute("photo_id", photo_id);
         model.addAttribute("photographer", photographer);
         model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographer));
+        model.addAttribute("canComment", canComment);
+        model.addAttribute("isAuthor", isAuthor);
+        model.addAttribute("editTags", editTags);
         if (commentService.getCaption(photo_id) != null) {
             model.addAttribute("caption", commentService.getCaption(photo_id).getCommentText());
         }
@@ -221,6 +227,10 @@ public class PhotoController {
                 }
             }
         }
+
         return "redirect:/photo/" + photo_id;
     }
+
+
+
 }
