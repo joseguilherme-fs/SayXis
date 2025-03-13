@@ -82,7 +82,7 @@
 
         <div th:if="${editTags}" id="edit-tags">
           <div id="edit-header">
-            <p id="db-tags-title">Tags existentes no banco</p>
+            <p id="db-tags-title">Tags Populares - Clique para inserir ou digite uma nova.</p>
             <form th:action="@{/photo/{photo_id}/save-tag-edition(photo_id=${photo_id})}" method="GET">
               <input type="hidden" id="hashtagsInput" name="hashtags" th:value="${hashtags}" />
               <button id="confirm-edition-btn" th:if="${isAuthor}"><i class="fa-solid fa-check"></i></button>

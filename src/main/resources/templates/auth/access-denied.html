@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html class="h-full" lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Acesso negado</title>
+    <title>Acesso Negado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link th:href="@{/css/output.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
-<body class="h-full">
-<main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-    <div class="text-center">
-        <p class="text-base font-semibold text-indigo-600" th:text="${httpStatusCode}"></p>
-        <h1 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">Acesso negado</h1>
+<body>
+<div th:insert="fragments/header :: header"></div>
 
-        <p th:if="${httpStatusCode == 401}" class="mt-6 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">Você precisa fazer login para acessar essa página.</p>
-        <div th:if="${httpStatusCode == 401}" class="mt-10 flex items-center justify-center gap-x-6">
-            <a th:href="@{/photographer/login}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Fazer login</a>
-        </div>
+<div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900 flex flex-col items-center py-16">
+    <i class="fa-solid fa-ban text-red-600 text-6xl"></i>
+    <h1 class="text-2xl font-bold text-center text-gray-900 mt-4">ACESSO NEGADO</h1>
+    <p class="text-sm text-gray-500 text-center mt-2">Você não tem permissão para acessar esse conteúdo</p>
+    <a href="/" class="mt-6 px-6 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-600 hover:shadow-lg font-semibold">Voltar ao início</a>
+</div>
 
-        <p th:if="${httpStatusCode == 403}" class="mt-6 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">Você não tem autorização para acessar essa página.</p>
-        <div th:if="${httpStatusCode == 403}" class="mt-10 flex items-center justify-center gap-x-6">
-            <a th:href="@{/index}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Página inicial</a>
-        </div>
-    </div>
-</main>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
