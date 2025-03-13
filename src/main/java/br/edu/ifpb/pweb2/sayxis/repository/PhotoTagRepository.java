@@ -16,4 +16,7 @@ public interface PhotoTagRepository extends JpaRepository<PhotoTag, PhotoTagId> 
 
     @Query("select t from PhotoTag t where t.photo = :photo")
     List<PhotoTag> getPhotoTagList(@Param("photo") Photo photo);
+
+    @Query("select t from PhotoTag t where t.photo != :photo")
+    List<PhotoTag> getNotPhotoTagList(@Param("photo") Photo photo);
 }
