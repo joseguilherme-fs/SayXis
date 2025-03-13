@@ -97,7 +97,7 @@ public class PhotoController {
 
         return "redirect:/photo/upload";
     }
-    
+
     //retorna a página da foto
     @GetMapping("/{photo_id}")
     public String getPhoto(Model model, HttpSession session, @PathVariable Integer photo_id, Principal principal) {

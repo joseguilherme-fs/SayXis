@@ -23,7 +23,7 @@
     </div>
     <div class="text-center mt-2">
         <h2 class="font-semibold" th:text="${photographer.name}"></h2>
-        <p class="text-sm text-gray-500" th:text="${nickname}"></p>
+        <p class="text-sm text-gray-500" th:inline="text">@[[${photographer.getUser().getUsername()}]]</p>
         <p class="text-xs text-gray-500 py-2" th:inline="text"><i class="fa-solid fa-location-dot"></i> [[${photographer.city} + ' - ' + ${photographer.country}]]</p>
     </div>
     <ul class="py-4 mt-2 flex items-center justify-around">

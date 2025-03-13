@@ -52,7 +52,6 @@ public class PhotographerController {
             return "redirect:/error";
         }
 
-        String nickname = "@" + photographerDB.getName().toLowerCase().replace(" ", "");
 
         // Verificar se o fotógrafo logado está visualizando o próprio perfil
         boolean isOwnProfile = photographerLogged.getId().equals(photographerDB.getId());
@@ -72,7 +71,6 @@ public class PhotographerController {
 
         model.addAttribute("photographer", photographerDB);
         model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerDB));
-        model.addAttribute("nickname", nickname);
         model.addAttribute("qntFollowers", photographerService.getFollowersCount(id));
         model.addAttribute("qntFollowing", photographerService.getFollowingCount(id));
         model.addAttribute("qntPosts", photoService.countPhotosByPhotographerId(id));
