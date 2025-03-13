@@ -4,47 +4,70 @@
     <meta charset="UTF-8">
     <title>Área de Administrador</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link th:href="@{/css/admin.css}" rel="stylesheet" />
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <link th:href="@{/css/output.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
-<body class="body-header-footer">
-    <div th:insert="fragments/header :: header"></div>
-    <h1 id="title">Área de Administrador</h1>
-    <a id="list-users" th:href="@{/admin/list-users}">
-        <button>Listar fotógrafos</button>
-    </a>
-    <table th:if="${listPhotographers}" class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Status da conta</th>
-                <th>Ações</th>
-            </tr>
+<body class="body-header-footer bg-gray-100 min-h-screen flex flex-col">
+<div th:insert="fragments/header :: header"></div>
+
+<div class="max-w-4xl mx-auto mt-20 mb-20 p-6 bg-white shadow-lg rounded-lg flex-grow h-full">
+    <h1 class="text-2xl font-bold text-center mb-6">Área de Administrador</h1>
+    <div class="text-center mb-6">
+        <a th:href="@{/admin/list-users}" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+            Listar fotógrafos
+        </a>
+    </div>
+
+    <table th:if="${listPhotographers}" class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-blue-600 text-white">
+        <tr>
+            <th class="p-3">ID</th>
+            <th class="p-3">Nome</th>
+            <th class="p-3">Email</th>
+            <th class="p-3">Status da conta</th>
+            <th class="p-3">Ações</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="photographer : ${photographers}">
-                <td th:text="${photographer.id}"></td>
-                <td th:text="${photographer.name}"></td>
-                <td th:text="${photographer.email}"></td>
-                <td>
-                    <p th:if="${photographer.is_suspended == false}">Ativa</p>
-                    <p th:if="${photographer.is_suspended == true}">Suspensa</p>
-                </td>
-                <td id="admin-actions">
-                    <a th:href="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}">
-                        <button class="btn-edit">Editar dados</button>
-                    </a>
-                    <form th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer.id})}" method="POST">
-                        <button type="submit" class="btn-suspend">Suspender</button>
-                    </form>
-                </td>
-            </tr>
+        <tr th:if="${authPhotographerId != photographer.id}" th:each="photographer : ${photographers}" class="border-b hover:bg-gray-100">
+            <td class="p-3 text-center" th:text="${photographer.id}"></td>
+            <td class="p-3 text-center" th:text="${photographer.name}"></td>
+            <td class="p-3 text-center" th:text="${photographer.email}"></td>
+            <td class="p-3 text-center">
+                <p th:if="${!photographer.is_suspended}" class="text-green-600 font-semibold">Ativa</p>
+                <p th:if="${photographer.is_suspended}" class="text-red-600 font-semibold">Suspensa</p>
+            </td>
+            <td class="p-3 text-center flex justify-center gap-2">
+                <a th:href="@{/admin/{photographer_id}/edit(photographer_id=${photographer.id})}" class="text-blue-600 hover:text-blue-800">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+                <form th:if="${!photographer.is_suspended}" th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer.id})}" method="POST">
+                    <button type="submit" class="text-red-600 hover:text-red-800">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </button>
+                </form>
+                <form th:if="${photographer.is_suspended}" th:action="@{/admin/{photographer_id}/reactivate(photographer_id=${photographer.id})}" method="POST">
+                    <button type="submit" class="text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-user-check"></i>
+                    </button>
+                </form>
+                <form th:if="${photographer.has_comment_permission}" th:action="@{/admin/{photographer_id}/suspend-comment(photographer_id=${photographer.id})}" method="POST">
+                    <button type="submit" class="text-red-600 hover:text-red-800">
+                        <i class="fa-solid fa-comment-slash"></i>
+                    </button>
+                </form>
+                <form th:if="${!photographer.has_comment_permission}" th:action="@{/admin/{photographer_id}/reactivate-comment(photographer_id=${photographer.id})}" method="POST">
+                    <button type="submit" class="text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-comments"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
         </tbody>
     </table>
-    <div th:insert="fragments/footer :: footer"></div>
+</div>
+
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>

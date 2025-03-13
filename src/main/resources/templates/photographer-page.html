@@ -4,44 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Fotógrafo</title>
-    <link th:href="@{/css/photographer-page.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/css/output.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
-<body>
-<div class="container">
-    <h1>Informações do Fotógrafo</h1>
+<body class="bg-gray-100">
+<div class="max-w-2xl mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900 p-6">
+    <h1 class="text-2xl font-semibold text-center mb-6">Informações do Fotógrafo</h1>
 
-    <div class="content">
-        <div class="profile-photo">
-            <i class="fa-solid fa-user" th:if="${profilePhoto == null}"></i>
-            <img th:src="@{profilePhoto.imageUrl}"
-                 th:if="${profilePhoto != null}"
-                 alt="Foto do perfil">
+    <div class="flex flex-col items-center">
+        <!-- Foto do perfil -->
+        <div class="w-32 h-32 relative border-4 border-white rounded-full overflow-hidden">
+            <img th:if="${profilePhoto != null}" class="object-cover object-center h-32 w-32" th:src="${profilePhoto.imageUrl}" alt='Foto do perfil'>
+            <img th:if="${profilePhoto == null}" class="object-cover object-center h-32 w-32" src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt='Foto do perfil'>
         </div>
-        <div class="info">
-            <div><span>Nome:</span> <span th:text="${photographer.name}"></span></div>
-            <div><span>Email:</span> <span th:text="${photographer.email}"></span></div>
-            <div>
-                <span>Cidade:</span>
-                <span th:text="${photographer.city != null ? photographer.city : 'Não informado'}"></span>
-            </div>
-            <div>
-                <span>País:</span>
-                <span th:text="${photographer.country != null ? photographer.country : 'Não informado'}"></span>
-            </div>
-            <div><span>Administrador:</span> <span th:text="${photographer.is_adm ? 'Sim' : 'Não'}"></span></div>
-            <div><span>Suspenso:</span> <span th:text="${photographer.is_suspended ? 'Sim' : 'Não'}"></span></div>
-            <div><span>Permitir seguidores:</span> <span th:text="${photographer.followAllowed ? 'Sim' : 'Não'}"></span></div>
+
+        <!-- Informações do fotógrafo -->
+        <div class="text-center mt-4">
+            <h2 class="font-semibold" th:text="${photographer.name}"></h2>
+            <p class="text-sm text-gray-500" th:text="${photographer.email}"></p>
+            <p class="text-xs text-gray-500 py-2"><i class="fa-solid fa-location-dot"></i> <span th:text="${photographer.city} + ' - ' + ${photographer.country}"></span></p>
+        </div>
+
+        <!-- Ações de administração -->
+        <div class="flex justify-center gap-4 p-4 border-t w-full mt-4">
+            <form th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer_id})}" method="post">
+                <button th:if="${!photographer.is_suspended}" type="submit">
+                    <i class="fa-solid fa-user-xmark text-red-500 text-xl hover:text-red-600"></i>
+                </button>
+            </form>
+            <form th:action="@{/admin/{photographer_id}/reactivate(photographer_id=${photographer_id})}" method="post">
+                <button th:if="${photographer.is_suspended}" type="submit">
+                    <i class="fa-solid fa-user-check text-green-500 text-xl hover:text-green-600"></i>
+                </button>
+            </form>
+            <form th:action="@{/admin/{photographer_id}/suspend-comment(photographer_id=${photographer_id})}" method="post">
+                <button th:if="${photographer.has_comment_permission}" type="submit">
+                    <i class="fa-solid fa-comment-slash text-red-500 text-xl hover:text-red-600"></i>
+                </button>
+            </form>
+            <form th:action="@{/admin/{photographer_id}/reactivate-comment(photographer_id=${photographer_id})}" method="post">
+                <button th:if="${!photographer.has_comment_permission}" type="submit">
+                    <i class="fa-solid fa-comments text-green-500 text-xl hover:text-green-600"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Dados adicionais -->
+        <div class="mt-6 w-full px-6">
+            <div class="text-sm text-gray-700"><span class="font-semibold">Tipo da conta:</span> <span th:text="${photographer.is_adm ? 'Administrador' : 'Usuário comum'}"></span></div>
+            <div class="text-sm text-gray-700"><span class="font-semibold">Situação da conta:</span> <span th:text="${photographer.is_suspended ? 'Suspensa' : 'Ativa'}"></span></div>
+            <div class="text-sm text-gray-700"><span class="font-semibold">Permissão para comentar:</span> <span th:text="${photographer.has_comment_permission ? 'Concedida' : 'Negada'}"></span></div>
+            <div class="text-sm text-gray-700"><span class="font-semibold">Permite seguidores:</span> <span th:text="${photographer.followAllowed ? 'Sim' : 'Não'}"></span></div>
         </div>
     </div>
-    <div class="actions">
-        <form th:action="@{/admin/{photographer_id}/suspend(photographer_id=${photographer_id})}" method="post">
-            <input type="hidden" th:value="${photographer.id}" name="photographerId">
-            <button type="submit" class="btn" th:classappend="${photographer.is_suspended ? ' suspended' : ''}"
-                    th:text="${photographer.is_suspended ? 'Reativar Fotógrafo' : 'Suspender Fotógrafo'}"></button>
-        </form>
-    </div>
-
 </div>
 <div th:insert="fragments/footer :: footer"></div>
 </body>
