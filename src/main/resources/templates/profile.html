@@ -82,13 +82,13 @@
         </button>
     </div>
 </div>
-<div class="pt-16 mt-8 max-w-2xl mx-auto">
-    <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Publicações</h3>
+<div class="pt-16 max-w-2xl mx-auto">
+    <h3 class="text-lg font-semibold text-gray-900 text-center">Minhas publicações</h3>
     <div class="pt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div th:each="data : ${photoData}">
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
                 <a th:href="@{'/photo/' + ${data.photo.id}}">
-                    <img th:src="@{'/photo/' + ${data.photo.id} + '/image'}" class="w-full h-76 object-cover">
+                    <img style="height: 150px" th:src="@{'/photo/' + ${data.photo.id} + '/image'}" class="w-full object-cover">
                 </a>
                 <div class="p-2 flex justify-between items-center">
                     <div class="flex items-center space-x-2">
