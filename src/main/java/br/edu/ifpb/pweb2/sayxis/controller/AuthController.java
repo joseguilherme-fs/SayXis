@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 
 @Controller
@@ -72,13 +71,10 @@ public class AuthController {
         }
 
         try {
-            // Salva o usuário
             userService.save(photographer.getUser());
 
-            // Salva o fotógrafo
             Photographer newPhotographer = photographerService.save(photographer);
 
-            // Processa a foto de perfil, se houver
             if (!file.isEmpty()) {
                 newPhotographer.setProfile_photo(file.getBytes());
                 PhotoDTO savedPhoto = photoService.addPhoto(newPhotographer, file.getBytes(), true);
@@ -86,14 +82,12 @@ public class AuthController {
                 photo.setImageUrl("http://localhost:8080/photo/" + photo.getId() + "/image");
                 photoService.save(photo);
             }
-
             attr.addFlashAttribute("message", "Fotógrafo cadastrado com sucesso!");
             modelAndView.setViewName("redirect:/auth/login");
         } catch (Exception e) {
             modelAndView.addObject("mensagem", "Erro ao cadastrar fotógrafo: " + e.getMessage());
             modelAndView.setViewName("register-form");
         }
-
         return modelAndView;
     }
 }

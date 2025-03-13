@@ -2,21 +2,15 @@ package br.edu.ifpb.pweb2.sayxis.controller;
 
 import br.edu.ifpb.pweb2.sayxis.model.Photo;
 import br.edu.ifpb.pweb2.sayxis.model.Photographer;
-import br.edu.ifpb.pweb2.sayxis.model.dto.PhotographerDTO;
 import br.edu.ifpb.pweb2.sayxis.service.CommentService;
 import br.edu.ifpb.pweb2.sayxis.service.LikeService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotoService;
 import br.edu.ifpb.pweb2.sayxis.service.PhotographerService;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -42,7 +36,6 @@ public class PhotographerController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     // retorna o perfil do usuário
     @GetMapping("/{photographerId}/profile")
@@ -77,7 +70,6 @@ public class PhotographerController {
             photoData.add(data);
         }
 
-        // Adicionar atributos ao modelo
         model.addAttribute("photographer", photographerDB);
         model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerDB));
         model.addAttribute("nickname", nickname);
@@ -87,49 +79,6 @@ public class PhotographerController {
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("followAllowed", photographerDB.isFollowAllowed());
         model.addAttribute("isFollowing", photographerService.isFollowing(photographerDB, photographerLogged));
-        model.addAttribute("photos", photos);
-        model.addAttribute("photoData", photoData);
-
-        return "profile";
-    }
-
-    @GetMapping("/my/profile")
-    public String viewMyProfile(
-            Model model, Principal principal) {
-
-        Photographer photographerLogged = photographerService.findByUsername(principal.getName());
-
-        if (photographerLogged == null) {
-            return "redirect:/photographer/login";
-        }
-
-        String nickname = "@" + photographerLogged.getName().toLowerCase().replace(" ", "");
-
-        Boolean isOwnProfile = true;
-
-        List<Photo> photos = photoService.findPhotosByPhotographerId(photographerLogged.getId());
-        photos.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
-
-        List<Map<String, Object>> photoData = new ArrayList<>();
-
-        for (Photo photo : photos) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("photo", photo);
-            data.put("likes", likeService.countLikes(photo.getId()));
-            data.put("comments", commentService.countComments(photo.getId()));
-            photoData.add(data);
-        }
-
-        // Adicionar atributos ao modelo
-        model.addAttribute("photographer", photographerLogged);
-        model.addAttribute("profilePhoto", photoService.findProfilePhoto(photographerLogged));
-        model.addAttribute("nickname", nickname);
-        model.addAttribute("qntFollowers", photographerService.getFollowersCount(photographerLogged.getId()));
-        model.addAttribute("qntFollowing", photographerService.getFollowingCount(photographerLogged.getId()));
-        model.addAttribute("qntPosts", photoService.countPhotosByPhotographerId(photographerLogged.getId()));
-        model.addAttribute("isOwnProfile", isOwnProfile);
-        model.addAttribute("followAllowed", photographerLogged.isFollowAllowed());
-        model.addAttribute("isFollowing", photographerService.isFollowing(photographerLogged, photographerLogged));
         model.addAttribute("photos", photos);
         model.addAttribute("photoData", photoData);
 
@@ -157,7 +106,6 @@ public class PhotographerController {
         return "redirect:/photographer/" + photographerId + "/profile";
     }
 
-    // seguir um fotógrafo
     @PostMapping("/{photographerId}/follow")
     public String follow(@PathVariable("photographerId") Integer photographerId,
                         Principal principal) {
@@ -183,7 +131,6 @@ public class PhotographerController {
         photographerService.unfollow(photographerId, photographerLogged.getId());
         return "redirect:/photographer/" + photographerId + "/profile";
     }
-
 
     @GetMapping("/suspended")
     public String getSuspendedPage() {
